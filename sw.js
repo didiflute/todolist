@@ -3,7 +3,7 @@ const CACHE = 'todo-v1';
 // Install: cache the app shell
 self.addEventListener('install', e => {
   e.waitUntil(
-    caches.open(CACHE).then(c => c.addAll(['./', './index.html', './icon.png']))
+    caches.open(CACHE).then(c => c.addAll(['./', './index.html', './icon.png', './cat-work.png', './cat-study.png', './cat-home.png', './cat-kids.png', './cat-shopping.png']))
       .then(() => self.skipWaiting())
   );
 });

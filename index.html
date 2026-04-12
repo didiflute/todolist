@@ -56,7 +56,7 @@ input,button,textarea{font-family:inherit}input::placeholder{color:var(--tm)}
 .sb{width:52px;flex-shrink:0;display:flex;flex-direction:column;gap:4px;padding-top:4px}
 .si{display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 4px;border-radius:12px;cursor:pointer;transition:all .15s;position:relative}
 .si.on{background:var(--sf);box-shadow:0 2px 6px rgba(45,48,72,.06)}
-.si .se{font-size:18px}.si .sl{font-size:8px;font-weight:700;color:var(--tm)}.si.on .sl{color:var(--tx)}
+.si .se{font-size:18px}.si .se img{width:36px;height:36px;border-radius:50%}.si .sl{font-size:8px;font-weight:700;color:var(--tm)}.si.on .sl{color:var(--tx)}
 .si .scn{position:absolute;top:2px;right:2px;font-size:7px;font-weight:800;background:var(--or);color:#fff;width:14px;height:14px;border-radius:50%;display:flex;align-items:center;justify-content:center}
 .lm{flex:1;min-width:0;padding-left:8px}
 .er{display:flex;gap:4px;margin-bottom:8px}
@@ -128,7 +128,7 @@ let S={tab:'today',tasks:ld(SK.t,[]),habits:ld(SK.h,DH),set:ld(SK.s,{apiKey:'',n
   notifDismissed:false,tmrDismissed:false};
 function ps(){sv(SK.t,S.tasks);sv(SK.h,S.habits);sv(SK.s,S.set)}
 
-const CATS=[{i:'all',l:'全部',e:'📋',c:'#f47d4a'},{i:'work',l:'工作',e:'💼',c:'#5c7cba'},{i:'study',l:'学习',e:'📖',c:'#8b7ec7'},{i:'home',l:'家务',e:'🏠',c:'#6aab8e'},{i:'kids',l:'孩子',e:'👶',c:'#d97ba2'},{i:'shopping',l:'购物',e:'🛒',c:'#5bbcbf'}];
+const CATS=[{i:'all',l:'全部',e:'📋',img:'',c:'#f47d4a'},{i:'work',l:'工作',e:'💼',img:'./cat-work.png',c:'#5c7cba'},{i:'study',l:'学习',e:'📖',img:'./cat-study.png',c:'#8b7ec7'},{i:'home',l:'家务',e:'🏠',img:'./cat-home.png',c:'#6aab8e'},{i:'kids',l:'孩子',e:'👶',img:'./cat-kids.png',c:'#d97ba2'},{i:'shopping',l:'购物',e:'🛒',img:'./cat-shopping.png',c:'#5bbcbf'}];
 const CL=Object.fromEntries(CATS.map(c=>[c.i,c.l]));
 const CC=Object.fromEntries(CATS.map(c=>[c.i,c.c]));
 const CE=Object.fromEntries(CATS.map(c=>[c.i,c.e]));
@@ -280,7 +280,7 @@ function R(){
   else if(S.tab==='list'){
     h+='<div class="ll"><div class="sb">';
     CATS.forEach(c=>{const cnt=c.i==='all'?act.length:act.filter(t=>t.category===c.i).length;
-      h+=`<div class="si${S.catF===c.i?' on':''}" onclick="S.catF='${c.i}';R()"><span class="se">${c.e}</span><span class="sl">${c.l}</span>${cnt>0&&c.i!=='all'?`<span class="scn">${cnt}</span>`:''}</div>`});
+      h+=`<div class="si${S.catF===c.i?' on':''}" onclick="S.catF='${c.i}';R()"><span class="se">${c.img?`<img src="${c.img}">`:c.e}</span><span class="sl">${c.l}</span>${cnt>0&&c.i!=='all'?`<span class="scn">${cnt}</span>`:''}</div>`});
     h+='</div><div class="lm"><div class="er">';
     Object.entries(ENG).forEach(([k,v])=>{h+=`<button class="ep" style="${S.engF===k?`border-color:${v.c};background:${v.bg};color:${v.c}`:''}" onclick="S.engF=S.engF==='${k}'?null:'${k}';R()">${v.l}</button>`});
     h+='</div>';
