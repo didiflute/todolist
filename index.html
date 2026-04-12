@@ -128,7 +128,7 @@ let S={tab:'today',tasks:ld(SK.t,[]),habits:ld(SK.h,DH),set:ld(SK.s,{apiKey:'',n
   notifDismissed:false,tmrDismissed:false};
 function ps(){sv(SK.t,S.tasks);sv(SK.h,S.habits);sv(SK.s,S.set)}
 
-const CATS=[{i:'all',l:'全部',e:'📋',img:'',c:'#f47d4a'},{i:'work',l:'工作',e:'💼',img:'./cat-work.png',c:'#5c7cba'},{i:'study',l:'学习',e:'📖',img:'./cat-study.png',c:'#8b7ec7'},{i:'home',l:'家务',e:'🏠',img:'./cat-home.png',c:'#6aab8e'},{i:'kids',l:'孩子',e:'👶',img:'./cat-kids.png',c:'#d97ba2'},{i:'shopping',l:'购物',e:'🛒',img:'./cat-shopping.png',c:'#5bbcbf'}];
+const CATS=[{i:'all',l:'全部',e:'📋',img:'./cat-all.png',c:'#f47d4a'},{i:'work',l:'工作',e:'💼',img:'./cat-work.png',c:'#5c7cba'},{i:'study',l:'学习',e:'📖',img:'./cat-study.png',c:'#8b7ec7'},{i:'home',l:'家务',e:'🏠',img:'./cat-home.png',c:'#6aab8e'},{i:'kids',l:'孩子',e:'👶',img:'./cat-kids.png',c:'#d97ba2'},{i:'shopping',l:'购物',e:'🛒',img:'./cat-shopping.png',c:'#5bbcbf'}];
 const CL=Object.fromEntries(CATS.map(c=>[c.i,c.l]));
 const CC=Object.fromEntries(CATS.map(c=>[c.i,c.c]));
 const CE=Object.fromEntries(CATS.map(c=>[c.i,c.e]));
