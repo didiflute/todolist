@@ -105,7 +105,7 @@ const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'
 const DH=[{id:'h1',text:'健身 30 分钟',freq:'daily',streak:0,history:{}},{id:'h2',text:'读书 20 分钟',freq:'daily',streak:0,history:{}}];
 
 const SHOP_PLACES=[{i:'cn',l:'🇨🇳 中国'},{i:'jp',l:'🇯🇵 日本'},{i:'hk',l:'🇭🇰 香港'},{i:'us',l:'🇺🇸 美国'}];
-const SHOP_TYPES=[{i:'beauty',l:'💄 护肤美妆'},{i:'clothes',l:'👗 衣服鞋帽'},{i:'jewelry',l:'💍 首饰配饰'},{i:'bags',l:'👜 包'},{i:'gifts',l:'🎁 礼物'},{i:'home',l:'🏠 家居日用'},{i:'kids',l:'👶 孩子'}];
+const SHOP_TYPES=[{i:'beauty',l:'💄 护肤美妆'},{i:'clothes',l:'👗 衣服鞋帽'},{i:'jewelry',l:'💍 首饰配饰'},{i:'bags',l:'👜 包'},{i:'gifts',l:'🎁 礼物'},{i:'home',l:'🏠 家居日用'},{i:'kids',l:'👶 孩子'},{i:'travel',l:'✈️ 旅行'}];
 const SPL=Object.fromEntries(SHOP_PLACES.map(p=>[p.i,p.l]));
 const STL=Object.fromEntries(SHOP_TYPES.map(t=>[t.i,t.l]));
 
@@ -115,7 +115,7 @@ function isDueToday(t){return t.dueDate===td()}
 function isDueTmr(t){const d=new Date();d.setDate(d.getDate()+1);return t.dueDate===d.toISOString().slice(0,10)}
 function isOverdue(t){return t.dueDate&&t.dueDate<td()}
 
-let S={tab:'today',tasks:ld(SK.t,[]),habits:ld(SK.h,DH),set:ld(SK.s,{apiKey:''}),catF:'all',engF:null,showDone:false,showSet:false,input:'',proc:false,picks:[],addH:false,newH:'',hFreq:'daily',dd:null,notifDismissed:false,tmrDismissed:false,overdueDismissed:false,editingTask:null,search:'',aiPrioDate:''};
+let S={tab:'today',tasks:ld(SK.t,[]),habits:ld(SK.h,DH),set:ld(SK.s,{apiKey:''}),catF:'all',engF:null,shopPlaceF:null,shopTypeF:null,showDone:false,showSet:false,input:'',proc:false,picks:[],addH:false,newH:'',hFreq:'daily',dd:null,notifDismissed:false,tmrDismissed:false,overdueDismissed:false,editingTask:null,search:'',aiPrioDate:''};
 function ps(){sv(SK.t,S.tasks);sv(SK.h,S.habits);sv(SK.s,S.set)}
 
 S.tasks=S.tasks.map(t=>{if(t.due&&!t.dueDate)return{...t,dueDate:dueToISO(t.due)||null,due:undefined};return t});ps();
@@ -133,7 +133,7 @@ function ic(p,s=22,c='var(--tm)',w=1.8){return`<svg width="${s}" height="${s}" v
 function chk(){return'<svg width="11" height="11" viewBox="0 0 12 12"><path d="M2.5 6l2.5 2.5 4.5-5" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>'}
 function calcStreak(h){let s=0;const d=new Date();while(h[d.toISOString().slice(0,10)]){s++;d.setDate(d.getDate()-1)}return s}
 
-async function aiP(text){const k=S.set.apiKey;if(!k)return null;try{const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':k,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1500,system:`Parse tasks for a bilingual to-do app. Split MULTIPLE tasks. For each:\n- "text": concise\n- "category": "work"|"study"|"home"|"kids"|"shopping"\n- "energy": "urgent"|"quick"|"deep"|null\n- "due": "今天"|"明天"|"周五"|"本周" or null\n- "assignee": "老公" if mentioned, else null\n- "pool": true if "以后"/"someday", else false\nFor SHOPPING tasks also:\n- "shopPlace": "cn"|"jp"|"hk"|"us"|null\n- "shopType": "beauty"|"clothes"|"jewelry"|"bags"|"gifts"|"home"|"kids"|null\nReturn ONLY valid JSON array.`,messages:[{role:'user',content:text}]})});const d=await r.json();return JSON.parse((d.content?.[0]?.text||'[]').replace(/```json|```/g,'').trim())}catch(e){console.error(e);return null}}
+async function aiP(text){const k=S.set.apiKey;if(!k)return null;try{const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':k,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1500,system:`Parse tasks for a bilingual to-do app. Split MULTIPLE tasks. For each:\n- "text": concise\n- "category": "work"|"study"|"home"|"kids"|"shopping"\n- "energy": "urgent"|"quick"|"deep"|null\n- "due": "今天"|"明天"|"周五"|"本周" or null\n- "assignee": "老公" if mentioned, else null\n- "pool": true if "以后"/"someday", else false\nFor SHOPPING tasks also:\n- "shopPlace": "cn"|"jp"|"hk"|"us"|null\n- "shopType": "beauty"|"clothes"|"jewelry"|"bags"|"gifts"|"home"|"kids"|"travel"|null\nReturn ONLY valid JSON array.`,messages:[{role:'user',content:text}]})});const d=await r.json();return JSON.parse((d.content?.[0]?.text||'[]').replace(/```json|```/g,'').trim())}catch(e){console.error(e);return null}}
 async function aiR(){const k=S.set.apiKey;if(!k)return;const today=td();if(S.aiPrioDate===today&&S.picks.length)return;const a=S.tasks.filter(t=>!t.done&&!t.pool);if(a.length<3)return;try{const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':k,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:500,system:'Return JSON array of up to 5 task IDs to prioritize today. ONLY JSON array.',messages:[{role:'user',content:JSON.stringify(a.map(t=>({id:t.id,text:t.text,energy:t.energy,dueDate:t.dueDate})))}]})});const d=await r.json();S.picks=JSON.parse((d.content?.[0]?.text||'[]').replace(/```json|```/g,'').trim());S.aiPrioDate=today;R()}catch{}}
 
 function tgl(id){S.tasks=S.tasks.map(t=>t.id===id?{...t,done:!t.done}:t);ps();R()}
@@ -221,7 +221,10 @@ function tkH(t,sc){
     const isDD=f=>S.dd&&S.dd.id===t.id&&S.dd.f===f;
     if(isDD('due')){
       const duOpts=[{l:'今天',v:td()},{l:'明天',v:(()=>{const d=new Date();d.setDate(d.getDate()+1);return d.toISOString().slice(0,10)})()},{l:'本周末',v:(()=>{const d=new Date();const day=d.getDay()||7;d.setDate(d.getDate()+(6-day));return d.toISOString().slice(0,10)})()},{l:'下周一',v:(()=>{const d=new Date();const day=d.getDay()||7;d.setDate(d.getDate()+(8-day));return d.toISOString().slice(0,10)})()},{l:'无日期',v:null}];
-      h+=`<div class="tw"><div class="dd up right">`;duOpts.forEach(o=>{h+=`<div class="dd-i${t.dueDate===o.v?' on':''}" onclick="event.stopPropagation();upd('${t.id}',{dueDate:${o.v?`'${o.v}'`:'null'}})">${o.l}</div>`});h+='</div></div>';
+      h+=`<div class="tw"><div class="dd up right">`;
+      duOpts.forEach(o=>{h+=`<div class="dd-i${t.dueDate===o.v?' on':''}" onclick="event.stopPropagation();upd('${t.id}',{dueDate:${o.v?`'${o.v}'`:'null'}})">${o.l}</div>`});
+      h+=`<div style="padding:4px 6px;border-top:1px solid var(--bd);margin-top:2px"><input type="date" value="${t.dueDate||''}" style="width:100%;border:none;font-size:12px;font-weight:600;color:var(--tx);background:transparent;outline:none" onchange="event.stopPropagation();upd('${t.id}',{dueDate:this.value||null})"></div>`;
+      h+='</div></div>';
     }
     h+='</div>';
   }
@@ -249,6 +252,11 @@ function R(){
   const pri=S.picks.length?S.picks.map(id=>act.find(t=>t.id===id)).filter(Boolean).filter(t=>!isDueToday(t)&&!isOverdue(t)):act.filter(t=>(t.energy==='urgent'||isDueTmr(t))&&!isDueToday(t)&&!isOverdue(t)).slice(0,5);
   const qk=act.filter(t=>t.energy==='quick'&&!isDueToday(t)&&!isOverdue(t)&&!pri.find(p=>p?.id===t.id));
   let lF=act.filter(t=>(S.catF==='all'||t.category===S.catF)&&(!S.engF||t.energy===S.engF));
+  // Shopping sub-filters
+  if(S.catF==='shopping'){
+    if(S.shopPlaceF)lF=lF.filter(t=>t.shopPlace===S.shopPlaceF);
+    if(S.shopTypeF)lF=lF.filter(t=>t.shopType===S.shopTypeF);
+  }
   if(S.search){const q=S.search.toLowerCase();lF=lF.filter(t=>t.text.toLowerCase().includes(q))}
   const dF=dn.filter(t=>S.catF==='all'||t.category===S.catF);
 
@@ -276,9 +284,18 @@ function R(){
     if(dn.length){h+=`<div style="margin-top:12px"><button style="color:var(--tm);font-size:11px;padding:8px 0;font-weight:600" onclick="S.showDone=!S.showDone;R()">${S.showDone?'▾':'▸'} 已完成 (${dn.length})</button>`;if(S.showDone)dn.forEach(t=>{h+=tkH(t,true)});h+='</div>'}
   }
   else if(S.tab==='list'){
-    h+='<div class="ll"><div class="sb">';CATS.forEach(c=>{const cnt=c.i==='all'?act.length:act.filter(t=>t.category===c.i).length;h+=`<div class="si${S.catF===c.i?' on':''}" onclick="S.catF='${c.i}';R()"><span class="se">${c.img?`<img src="${c.img}">`:c.e}</span><span class="sl">${c.l}</span>${cnt>0?`<span class="scn">${cnt}</span>`:''}</div>`});
+    h+='<div class="ll"><div class="sb">';CATS.forEach(c=>{const cnt=c.i==='all'?act.length:act.filter(t=>t.category===c.i).length;h+=`<div class="si${S.catF===c.i?' on':''}" onclick="S.catF='${c.i}';S.shopPlaceF=null;S.shopTypeF=null;R()"><span class="se">${c.img?`<img src="${c.img}">`:c.e}</span><span class="sl">${c.l}</span>${cnt>0?`<span class="scn">${cnt}</span>`:''}</div>`});
     h+='</div><div class="lm">';h+=`<div class="search-wrap"><input placeholder="🔍 搜索..." value="${esc(S.search)}" oninput="S.search=this.value;R()"></div>`;
-    h+='<div class="er">';Object.entries(ENG).forEach(([k,v])=>{h+=`<button class="ep" style="${S.engF===k?`border-color:${v.c};background:${v.bg};color:${v.c}`:''}" onclick="S.engF=S.engF==='${k}'?null:'${k}';R()">${v.l}</button>`});h+='</div>';
+    // Shopping sub-filter pills
+    if(S.catF==='shopping'){
+      h+='<div class="er" style="flex-wrap:wrap">';
+      SHOP_PLACES.forEach(p=>{const on=S.shopPlaceF===p.i;h+=`<button class="ep" style="${on?'border-color:var(--tl);background:var(--tlL);color:var(--tl)':''}" onclick="S.shopPlaceF=S.shopPlaceF==='${p.i}'?null:'${p.i}';R()">${p.l}</button>`});
+      h+='</div><div class="er" style="flex-wrap:wrap">';
+      SHOP_TYPES.forEach(ty=>{const on=S.shopTypeF===ty.i;h+=`<button class="ep" style="${on?'border-color:var(--pk);background:var(--pkL);color:var(--pk)':''}" onclick="S.shopTypeF=S.shopTypeF==='${ty.i}'?null:'${ty.i}';R()">${ty.l}</button>`});
+      h+='</div>';
+    }else{
+      h+='<div class="er">';Object.entries(ENG).forEach(([k,v])=>{h+=`<button class="ep" style="${S.engF===k?`border-color:${v.c};background:${v.bg};color:${v.c}`:''}" onclick="S.engF=S.engF==='${k}'?null:'${k}';R()">${v.l}</button>`});h+='</div>';
+    }
     if(!lF.length)h+='<div style="text-align:center;padding:40px 0;color:var(--tm);font-size:13px">空空如也 ✨</div>';else lF.forEach(t=>{h+=tkH(t,S.catF==='all')});
     if(dF.length){h+=`<button style="color:var(--tm);font-size:11px;padding:10px 0;font-weight:600" onclick="S.showDone=!S.showDone;R()">${S.showDone?'▾':'▸'} 已完成 (${dF.length})</button>`;if(S.showDone)dF.forEach(t=>{h+=tkH(t,S.catF==='all')})}
     h+='</div></div>';

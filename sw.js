@@ -1,4 +1,4 @@
-const CACHE = 'todo-v5';
+const CACHE = 'todo-v6';
 
 // Install: cache the app shell
 self.addEventListener('install', e => {
