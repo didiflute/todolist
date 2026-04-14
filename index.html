@@ -12,21 +12,7 @@
 <title>待办清单</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{
-  --bg:#fef7f0;--sf:#fff;--sa:#f9f1e8;
-  --tx:#2d3048;--ts:#6b6d82;--tm:#a8aabe;--bd:#ede5da;
-  --or:#f47d4a;--orL:#fdf0e8;
-  --bl:#5c7cba;--blL:#e8edf6;
-  --gn:#6aab8e;--gnL:#e6f2ec;
-  --pk:#d97ba2;--pkL:#f8ecf1;
-  --pp:#8b7ec7;--ppL:#eeeaf6;
-  --tl:#5bbcbf;--tlL:#e5f4f4;
-  --nv:#2d3048;--dn:#6aab8e;
-  --ur:#e06930;--urBg:#fdf0e8;
-  --qk:#f4b24a;--qkBg:#fef6e6;
-  --dp:#5c7cba;--dpBg:#e8edf6;
-  --hb:#6aab8e;--hbL:#e6f2ec;
-}
+:root{--bg:#fef7f0;--sf:#fff;--sa:#f9f1e8;--tx:#2d3048;--ts:#6b6d82;--tm:#a8aabe;--bd:#ede5da;--or:#f47d4a;--orL:#fdf0e8;--bl:#5c7cba;--blL:#e8edf6;--gn:#6aab8e;--gnL:#e6f2ec;--pk:#d97ba2;--pkL:#f8ecf1;--pp:#8b7ec7;--ppL:#eeeaf6;--tl:#5bbcbf;--tlL:#e5f4f4;--nv:#2d3048;--dn:#6aab8e;--ur:#e06930;--urBg:#fdf0e8;--qk:#f4b24a;--qkBg:#fef6e6;--dp:#5c7cba;--dpBg:#e8edf6;--hb:#6aab8e;--hbL:#e6f2ec}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;margin:0;padding:0}
 body{font-family:'Noto Sans SC',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--tx);-webkit-font-smoothing:antialiased}
 input,button,textarea{font-family:inherit}input::placeholder{color:var(--tm)}
@@ -40,13 +26,13 @@ input,button,textarea{font-family:inherit}input::placeholder{color:var(--tm)}
 .hd-row{display:flex;justify-content:space-between;align-items:center;position:relative;z-index:1}
 .hd-habits{background:var(--gn)}.hd-ideas{background:var(--pp)}.hd-list{background:var(--bl)}
 .ct{padding:12px 16px 200px}
-.notif{background:linear-gradient(135deg,#e06930,#f47d4a);border-radius:16px;padding:12px 14px;margin-bottom:10px;color:#fff;position:relative;overflow:hidden;animation:notifIn .4s ease}
+.notif{background:linear-gradient(135deg,#e06930,#f47d4a);border-radius:16px;padding:12px 14px;margin-bottom:10px;color:#fff;position:relative;overflow:hidden;animation:ni .4s ease}
 .notif::after{content:'';position:absolute;top:-15px;right:-8px;width:60px;height:60px;border-radius:50%;background:rgba(255,255,255,.1)}
 .notif-row{display:flex;align-items:center;gap:10px;position:relative;z-index:1}
 .notif-dismiss{background:rgba(255,255,255,.25);border:none;border-radius:10px;color:#fff;font-size:11px;font-weight:700;padding:5px 12px;cursor:pointer}
-@keyframes notifIn{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
-.tmr-warn{background:var(--qkBg);border:1.5px solid #f0dfc0;border-radius:12px;padding:10px 14px;margin-bottom:10px;display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;color:#c89020;animation:notifIn .4s ease .1s both}
-.overdue-warn{background:#fdf0ee;border:1.5px solid #f0c8c0;border-radius:12px;padding:10px 14px;margin-bottom:10px;display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;color:#d4513d;animation:notifIn .4s ease .05s both}
+@keyframes ni{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
+.tmr-warn{background:var(--qkBg);border:1.5px solid #f0dfc0;border-radius:12px;padding:10px 14px;margin-bottom:10px;display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;color:#c89020;animation:ni .4s ease .1s both}
+.overdue-warn{background:#fdf0ee;border:1.5px solid #f0c8c0;border-radius:12px;padding:10px 14px;margin-bottom:10px;display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;color:#d4513d;animation:ni .4s ease .05s both}
 .ll{display:flex;gap:0;margin-top:4px}
 .sb{width:52px;flex-shrink:0;display:flex;flex-direction:column;gap:4px;padding-top:4px}
 .si{display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 4px;border-radius:12px;cursor:pointer;transition:all .15s;position:relative}
@@ -60,15 +46,18 @@ input,button,textarea{font-family:inherit}input::placeholder{color:var(--tm)}
 .search-wrap input{width:100%;padding:8px 12px;border:1.5px solid var(--bd);border-radius:12px;font-size:12px;background:var(--sf);outline:none;font-weight:500}
 .search-wrap input:focus{border-color:var(--or)}
 .sc{font-size:13px;font-weight:700;padding:18px 0 10px;display:flex;align-items:center;gap:8px}
-.tk{padding:10px 12px;margin-bottom:6px;border-radius:14px;background:var(--sf);box-shadow:0 2px 6px rgba(45,48,72,.04);border-left:4px solid transparent;transition:all .15s}
+.tk{padding:10px 12px;margin-bottom:6px;border-radius:14px;background:var(--sf);box-shadow:0 2px 6px rgba(45,48,72,.04);border-left:4px solid transparent}
 .tk.d{opacity:.4}
 .tk-top{display:flex;align-items:flex-start;gap:10px}
 .tk-text{font-size:13px;line-height:1.55;font-weight:500}
 .tags{display:flex;gap:4px;margin-top:5px;flex-wrap:wrap;align-items:center}
-.tag{font-size:9px;font-weight:700;padding:2px 7px;border-radius:8px;cursor:pointer;position:relative;transition:all .1s;user-select:none;-webkit-user-select:none}
+/* Tag wrapper — positions dropdown relative to the tag */
+.tw{position:relative;display:inline-flex}
+.tag{font-size:9px;font-weight:700;padding:2px 7px;border-radius:8px;cursor:pointer;user-select:none;-webkit-user-select:none}
 .tag:active{transform:scale(.95)}
-.dd{position:absolute;left:0;margin-top:4px;background:var(--sf);border-radius:12px;box-shadow:0 8px 24px rgba(45,48,72,.15);padding:6px;z-index:80;min-width:110px;display:flex;flex-direction:column;gap:2px}
-.dd.up{bottom:100%;top:auto;margin-bottom:4px;margin-top:0}.dd:not(.up){top:100%}
+.dd{position:absolute;top:100%;left:0;margin-top:4px;background:var(--sf);border-radius:12px;box-shadow:0 8px 24px rgba(45,48,72,.15);padding:6px;z-index:80;min-width:110px;display:flex;flex-direction:column;gap:2px}
+.dd.up{bottom:100%;top:auto;margin-bottom:4px;margin-top:0}
+.dd.right{left:auto;right:0}
 .dd-i{padding:7px 10px;border-radius:8px;font-size:11px;font-weight:600;cursor:pointer;white-space:nowrap}
 .dd-i:active{background:var(--sa)}.dd-i.on{background:var(--orL);color:var(--or)}
 .cb{width:20px;height:20px;border-radius:50%;flex-shrink:0;cursor:pointer;display:flex;align-items:center;justify-content:center;border:2px solid var(--bd);transition:all .2s}
@@ -98,10 +87,9 @@ input,button,textarea{font-family:inherit}input::placeholder{color:var(--tm)}
 .br{background:var(--qkBg);border:1.5px solid #f0dfc0;border-radius:16px;padding:12px 16px;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;font-size:12px;font-weight:600;color:#a08030}
 .br button{font-size:11px;padding:6px 16px;border-radius:14px;background:var(--or);color:#fff;font-weight:700}
 .ir{display:flex;align-items:center;gap:12px;padding:14px 16px;margin-bottom:8px;background:var(--sf);border-radius:16px;box-shadow:0 2px 8px rgba(45,48,72,.04)}
-.eb{font-size:9px;padding:3px 8px;border-radius:10px;border:1.5px solid var(--bd);color:var(--ts);font-weight:600;transition:all .12s}
+.eb{font-size:9px;padding:3px 8px;border-radius:10px;border:1.5px solid var(--bd);color:var(--ts);font-weight:600}
 @keyframes sp{to{transform:rotate(360deg)}}
 .spin{width:18px;height:18px;border:2.5px solid var(--bd);border-top-color:var(--or);border-radius:50%;animation:sp .5s linear infinite}
-.dd-overlay{position:fixed;inset:0;z-index:70}
 </style>
 </head>
 <body>
@@ -116,99 +104,76 @@ const td=()=>new Date().toISOString().slice(0,10);
 const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 const DH=[{id:'h1',text:'健身 30 分钟',freq:'daily',streak:0,history:{}},{id:'h2',text:'读书 20 分钟',freq:'daily',streak:0,history:{}}];
 
-// Shopping sub-tags
 const SHOP_PLACES=[{i:'cn',l:'🇨🇳 中国'},{i:'jp',l:'🇯🇵 日本'},{i:'hk',l:'🇭🇰 香港'},{i:'us',l:'🇺🇸 美国'}];
 const SHOP_TYPES=[{i:'beauty',l:'💄 护肤美妆'},{i:'clothes',l:'👗 衣服鞋帽'},{i:'jewelry',l:'💍 首饰配饰'},{i:'bags',l:'👜 包'},{i:'gifts',l:'🎁 礼物'},{i:'home',l:'🏠 家居日用'},{i:'kids',l:'👶 孩子'}];
 const SPL=Object.fromEntries(SHOP_PLACES.map(p=>[p.i,p.l]));
 const STL=Object.fromEntries(SHOP_TYPES.map(t=>[t.i,t.l]));
 
-function dueToISO(dueStr){
-  if(!dueStr)return null;
-  const now=new Date();const y=now.getFullYear(),m=now.getMonth(),d=now.getDate();
-  const map={'今天':0,'明天':1,'后天':2};
-  if(map[dueStr]!==undefined){const dt=new Date(y,m,d+map[dueStr]);return dt.toISOString().slice(0,10)}
-  const weekdays={'周一':1,'周二':2,'周三':3,'周四':4,'周五':5,'周六':6,'周日':7,'周天':7};
-  if(weekdays[dueStr]){const target=weekdays[dueStr];const current=now.getDay()||7;let diff=target-current;if(diff<=0)diff+=7;const dt=new Date(y,m,d+diff);return dt.toISOString().slice(0,10)}
-  if(dueStr==='本周'){const current=now.getDay()||7;const dt=new Date(y,m,d+(7-current));return dt.toISOString().slice(0,10)}
-  if(dueStr==='下周一'){const current=now.getDay()||7;const dt=new Date(y,m,d+(8-current));return dt.toISOString().slice(0,10)}
-  if(/^\d{4}-\d{2}-\d{2}$/.test(dueStr))return dueStr;
-  return null;
-}
-function dueDisplay(isoDate){
-  if(!isoDate)return'';const today=td();
-  const tmr=new Date();tmr.setDate(tmr.getDate()+1);const tmrStr=tmr.toISOString().slice(0,10);
-  if(isoDate===today)return'今天';if(isoDate===tmrStr)return'明天';if(isoDate<today)return'已过期';
-  const dt=new Date(isoDate+'T00:00:00');return`${dt.getMonth()+1}/${dt.getDate()}`;
-}
+function dueToISO(d){if(!d)return null;const n=new Date(),y=n.getFullYear(),m=n.getMonth(),dd=n.getDate();const map={'今天':0,'明天':1,'后天':2};if(map[d]!==undefined){const dt=new Date(y,m,dd+map[d]);return dt.toISOString().slice(0,10)}const wd={'周一':1,'周二':2,'周三':3,'周四':4,'周五':5,'周六':6,'周日':7,'周天':7};if(wd[d]){const t=wd[d],c=n.getDay()||7;let df=t-c;if(df<=0)df+=7;return new Date(y,m,dd+df).toISOString().slice(0,10)}if(d==='本周'){const c=n.getDay()||7;return new Date(y,m,dd+(7-c)).toISOString().slice(0,10)}if(d==='下周一'){const c=n.getDay()||7;return new Date(y,m,dd+(8-c)).toISOString().slice(0,10)}if(/^\d{4}-\d{2}-\d{2}$/.test(d))return d;return null}
+function dueDisplay(d){if(!d)return'';const t=td();const tm=new Date();tm.setDate(tm.getDate()+1);if(d===t)return'今天';if(d===tm.toISOString().slice(0,10))return'明天';if(d<t)return'已过期';const dt=new Date(d+'T00:00:00');return`${dt.getMonth()+1}/${dt.getDate()}`}
 function isDueToday(t){return t.dueDate===td()}
 function isDueTmr(t){const d=new Date();d.setDate(d.getDate()+1);return t.dueDate===d.toISOString().slice(0,10)}
 function isOverdue(t){return t.dueDate&&t.dueDate<td()}
 
-let S={tab:'today',tasks:ld(SK.t,[]),habits:ld(SK.h,DH),set:ld(SK.s,{apiKey:''}),
-  catF:'all',engF:null,showDone:false,showSet:false,input:'',proc:false,picks:[],addH:false,newH:'',hFreq:'daily',dd:null,
-  notifDismissed:false,tmrDismissed:false,overdueDismissed:false,editingTask:null,search:'',aiPrioDate:''};
+let S={tab:'today',tasks:ld(SK.t,[]),habits:ld(SK.h,DH),set:ld(SK.s,{apiKey:''}),catF:'all',engF:null,showDone:false,showSet:false,input:'',proc:false,picks:[],addH:false,newH:'',hFreq:'daily',dd:null,notifDismissed:false,tmrDismissed:false,overdueDismissed:false,editingTask:null,search:'',aiPrioDate:''};
 function ps(){sv(SK.t,S.tasks);sv(SK.h,S.habits);sv(SK.s,S.set)}
 
-// Migrate old tasks
-S.tasks=S.tasks.map(t=>{
-  if(t.due&&!t.dueDate){return{...t,dueDate:dueToISO(t.due)||null,due:undefined}}
-  return t;
-});ps();
+S.tasks=S.tasks.map(t=>{if(t.due&&!t.dueDate)return{...t,dueDate:dueToISO(t.due)||null,due:undefined};return t});ps();
 
 const CATS=[{i:'all',l:'全部',e:'📋',img:'./cat-all.png',c:'#f47d4a'},{i:'work',l:'工作',e:'💼',img:'./cat-work.png',c:'#5c7cba'},{i:'study',l:'学习',e:'📖',img:'./cat-study.png',c:'#8b7ec7'},{i:'home',l:'家务',e:'🏠',img:'./cat-home.png',c:'#6aab8e'},{i:'kids',l:'孩子',e:'👶',img:'./cat-kids.png',c:'#d97ba2'},{i:'shopping',l:'购物',e:'🛒',img:'./cat-shopping.png',c:'#5bbcbf'}];
-const CL=Object.fromEntries(CATS.map(c=>[c.i,c.l]));
-const CC=Object.fromEntries(CATS.map(c=>[c.i,c.c]));
-const CE=Object.fromEntries(CATS.map(c=>[c.i,c.e]));
+const CL=Object.fromEntries(CATS.map(c=>[c.i,c.l]));const CC=Object.fromEntries(CATS.map(c=>[c.i,c.c]));const CE=Object.fromEntries(CATS.map(c=>[c.i,c.e]));
 const ENG={urgent:{c:'#e06930',l:'🔥紧急',bg:'#fdf0e8'},quick:{c:'#c89020',l:'⚡快速',bg:'#fef6e6'},deep:{c:'#5c7cba',l:'🧠深度',bg:'#e8edf6'}};
 const TABS=[{i:'today',l:'今天',p:'M12 3v1m0 16v1m-8-9H3m18 0h-1m-2.636-5.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z'},{i:'list',l:'清单',p:'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4'},{i:'habits',l:'打卡',p:'M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15'},{i:'ideas',l:'想法',p:'M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z'}];
 const WD=['一','二','三','四','五','六','日'],MO=['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
-
 function gwd(){const n=new Date(),d=n.getDay()||7,m=new Date(n);m.setDate(n.getDate()-d+1);return Array.from({length:7},(_,i)=>{const x=new Date(m);x.setDate(m.getDate()+i);return x.toISOString().slice(0,10)})}
 function gyg(){const now=new Date(),yr=now.getFullYear(),j1=new Date(yr,0,1),sd=j1.getDay()||7,st=new Date(j1);st.setDate(j1.getDate()-(sd-1));const ws=[],cur=new Date(st);let wi=0;while(wi<54){const wk=[];for(let d=0;d<7;d++){wk.push({d:cur.toISOString().slice(0,10),y:cur.getFullYear()===yr,m:cur.getMonth()});cur.setDate(cur.getDate()+1)}ws.push(wk);wi++;if(cur>now&&cur.getFullYear()>yr)break}return ws}
 function nbr(){const b=localStorage.getItem(SK.b);if(!b)return true;return(Date.now()-parseInt(b))/864e5>=7}
 function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('s');setTimeout(()=>t.classList.remove('s'),2500)}
 function ic(p,s=22,c='var(--tm)',w=1.8){return`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round"><path d="${p}"/></svg>`}
 function chk(){return'<svg width="11" height="11" viewBox="0 0 12 12"><path d="M2.5 6l2.5 2.5 4.5-5" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>'}
-function calcStreak(history){let s=0;const dt=new Date();while(history[dt.toISOString().slice(0,10)]){s++;dt.setDate(dt.getDate()-1)}return s}
+function calcStreak(h){let s=0;const d=new Date();while(h[d.toISOString().slice(0,10)]){s++;d.setDate(d.getDate()-1)}return s}
 
-// AI — updated prompt with shopping sub-tags
-async function aiP(text){const k=S.set.apiKey;if(!k)return null;try{const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':k,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1500,system:`Parse tasks for a bilingual to-do app. Split MULTIPLE tasks. For each return a JSON object:\n- "text": concise description\n- "category": "work"|"study"|"home"|"kids"|"shopping"\n- "energy": "urgent"|"quick"|"deep"|null\n- "due": "今天"|"明天"|"周五"|"本周" or null\n- "assignee": "老公" if mentioned, else null\n- "pool": true if "以后"/"someday", else false\n\nFor SHOPPING tasks only, also include:\n- "shopPlace": "cn"|"jp"|"hk"|"us"|null (中国/日本/香港/美国, guess from context)\n- "shopType": "beauty"|"clothes"|"jewelry"|"bags"|"gifts"|"home"|"kids"|null\n  (护肤美妆/衣服鞋帽/首饰配饰/包/礼物/家居日用/孩子用品)\n\nReturn ONLY valid JSON array.`,messages:[{role:'user',content:text}]})});const d=await r.json();return JSON.parse((d.content?.[0]?.text||'[]').replace(/```json|```/g,'').trim())}catch(e){console.error(e);return null}}
-
-async function aiR(){const k=S.set.apiKey;if(!k)return;const today=td();if(S.aiPrioDate===today&&S.picks.length)return;
-const a=S.tasks.filter(t=>!t.done&&!t.pool);if(a.length<3)return;
-try{const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':k,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:500,system:'Return JSON array of up to 5 task IDs to prioritize today. ONLY JSON array.',messages:[{role:'user',content:JSON.stringify(a.map(t=>({id:t.id,text:t.text,energy:t.energy,dueDate:t.dueDate})))}]})});const d=await r.json();S.picks=JSON.parse((d.content?.[0]?.text||'[]').replace(/```json|```/g,'').trim());S.aiPrioDate=today;R()}catch{}}
+async function aiP(text){const k=S.set.apiKey;if(!k)return null;try{const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':k,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1500,system:`Parse tasks for a bilingual to-do app. Split MULTIPLE tasks. For each:\n- "text": concise\n- "category": "work"|"study"|"home"|"kids"|"shopping"\n- "energy": "urgent"|"quick"|"deep"|null\n- "due": "今天"|"明天"|"周五"|"本周" or null\n- "assignee": "老公" if mentioned, else null\n- "pool": true if "以后"/"someday", else false\nFor SHOPPING tasks also:\n- "shopPlace": "cn"|"jp"|"hk"|"us"|null\n- "shopType": "beauty"|"clothes"|"jewelry"|"bags"|"gifts"|"home"|"kids"|null\nReturn ONLY valid JSON array.`,messages:[{role:'user',content:text}]})});const d=await r.json();return JSON.parse((d.content?.[0]?.text||'[]').replace(/```json|```/g,'').trim())}catch(e){console.error(e);return null}}
+async function aiR(){const k=S.set.apiKey;if(!k)return;const today=td();if(S.aiPrioDate===today&&S.picks.length)return;const a=S.tasks.filter(t=>!t.done&&!t.pool);if(a.length<3)return;try{const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':k,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:500,system:'Return JSON array of up to 5 task IDs to prioritize today. ONLY JSON array.',messages:[{role:'user',content:JSON.stringify(a.map(t=>({id:t.id,text:t.text,energy:t.energy,dueDate:t.dueDate})))}]})});const d=await r.json();S.picks=JSON.parse((d.content?.[0]?.text||'[]').replace(/```json|```/g,'').trim());S.aiPrioDate=today;R()}catch{}}
 
 function tgl(id){S.tasks=S.tasks.map(t=>t.id===id?{...t,done:!t.done}:t);ps();R()}
 function del(id){if(!confirm('确定删除？'))return;S.tasks=S.tasks.filter(t=>t.id!==id);S.dd=null;ps();R()}
 function upd(id,p){S.tasks=S.tasks.map(t=>t.id===id?{...t,...p}:t);S.dd=null;ps();R()}
 function tglH(id){const today=td();S.habits=S.habits.map(h=>{if(h.id!==id)return h;const was=h.history[today];const hi={...h.history,[today]:!was};return{...h,history:hi,streak:calcStreak(hi)}});ps();R()}
 function delH(id){if(!confirm('确定删除这个习惯？'))return;S.habits=S.habits.filter(h=>h.id!==id);ps();R()}
-function openDD(tid,f,e){e.stopPropagation();S.dd={id:tid,f};R()}
+function openDD(tid,f){S.dd={id:tid,f};S._ddJustOpened=true;R()}
 function closeDD(){S.dd=null;R()}
 function startEdit(id){S.editingTask=id;S.dd=null;R();setTimeout(()=>{const el=document.getElementById('edit-'+id);if(el){el.focus();el.selectionStart=el.value.length}},50)}
-function saveEdit(id){const el=document.getElementById('edit-'+id);if(el&&el.value.trim()){upd(id,{text:el.value.trim()})}S.editingTask=null;R()}
+function saveEdit(id){const el=document.getElementById('edit-'+id);if(el&&el.value.trim())upd(id,{text:el.value.trim()});S.editingTask=null;R()}
 
 async function sub(){const txt=S.input.trim();if(!txt)return;
-if(S.set.apiKey){S.proc=true;R();const parsed=await aiP(txt);S.proc=false;
-  if(parsed?.length){const ns=parsed.map(p=>({id:uid(),text:p.text,category:p.category||'home',energy:p.energy||null,dueDate:dueToISO(p.due)||null,assignee:p.assignee||null,done:false,pool:p.pool||S.tab==='ideas',created:td(),shopPlace:p.shopPlace||null,shopType:p.shopType||null}));
-  S.tasks=[...ns,...S.tasks];S.input='';ps();R();toast(`✨ 已添加 ${ns.length} 条任务`);return}}
-const parts=txt.split(/[，,、。；;！!\n]+|还有|另外|然后/).map(s=>s.trim()).filter(s=>s);
-const ns=parts.map(p=>({id:uid(),text:p,category:'home',energy:null,dueDate:null,assignee:/老公|他去|让他/.test(p)?'老公':null,done:false,pool:S.tab==='ideas',created:td(),shopPlace:null,shopType:null}));
-S.tasks=[...ns,...S.tasks];S.input='';ps();R();toast(`✨ 已添加 ${ns.length} 条任务`)}
+if(S.set.apiKey){S.proc=true;R();const parsed=await aiP(txt);S.proc=false;if(parsed?.length){const ns=parsed.map(p=>({id:uid(),text:p.text,category:p.category||'home',energy:p.energy||null,dueDate:dueToISO(p.due)||null,assignee:p.assignee||null,done:false,pool:p.pool||S.tab==='ideas',created:td(),shopPlace:p.shopPlace||null,shopType:p.shopType||null}));S.tasks=[...ns,...S.tasks];S.input='';ps();R();toast(`✨ 已添加 ${ns.length} 条任务`);return}}
+const parts=txt.split(/[，,、。；;！!\n]+|还有|另外|然后/).map(s=>s.trim()).filter(s=>s);const ns=parts.map(p=>({id:uid(),text:p,category:'home',energy:null,dueDate:null,assignee:/老公|他去|让他/.test(p)?'老公':null,done:false,pool:S.tab==='ideas',created:td(),shopPlace:null,shopType:null}));S.tasks=[...ns,...S.tasks];S.input='';ps();R();toast(`✨ 已添加 ${ns.length} 条任务`)}
 
 function exp(){const d=JSON.stringify({tasks:S.tasks,habits:S.habits,date:td()},null,2);const b=new Blob([d],{type:'application/json'});if(navigator.share&&navigator.canShare){const f=new File([b],`todo-${td()}.json`,{type:'application/json'});if(navigator.canShare({files:[f]})){navigator.share({files:[f],title:'待办备份'}).catch(()=>{});localStorage.setItem(SK.b,Date.now().toString());return}}const u=URL.createObjectURL(b);const a=document.createElement('a');a.href=u;a.download=`todo-${td()}.json`;a.click();URL.revokeObjectURL(u);localStorage.setItem(SK.b,Date.now().toString());toast('📦 已导出备份')}
-function imp(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>{try{const d=JSON.parse(ev.target.result);if(!d.tasks&&!d.habits){alert('格式错误');return}const mode=confirm('点"确定"替换所有数据，点"取消"合并到现有数据');if(mode){if(d.tasks)S.tasks=d.tasks;if(d.habits)S.habits=d.habits}else{if(d.tasks){const ids=new Set(S.tasks.map(t=>t.id));d.tasks.forEach(t=>{if(!ids.has(t.id))S.tasks.push(t)})}if(d.habits){const ids=new Set(S.habits.map(h=>h.id));d.habits.forEach(h=>{if(!ids.has(h.id))S.habits.push(h)})}}ps();R();toast('✅ 导入成功！')}catch{alert('文件格式错误')}};r.readAsText(f);e.target.value=''}
+function imp(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>{try{const d=JSON.parse(ev.target.result);if(!d.tasks&&!d.habits){alert('格式错误');return}const mode=confirm('点"确定"替换，点"取消"合并');if(mode){if(d.tasks)S.tasks=d.tasks;if(d.habits)S.habits=d.habits}else{if(d.tasks){const ids=new Set(S.tasks.map(t=>t.id));d.tasks.forEach(t=>{if(!ids.has(t.id))S.tasks.push(t)})}if(d.habits){const ids=new Set(S.habits.map(h=>h.id));d.habits.forEach(h=>{if(!ids.has(h.id))S.habits.push(h)})}}ps();R();toast('✅ 导入成功！')}catch{alert('格式错误')}};r.readAsText(f);e.target.value=''}
 function addHA(){if(!S.newH.trim())return;S.habits.push({id:uid(),text:S.newH.trim(),freq:S.hFreq,streak:0,history:{}});S.newH='';S.addH=false;ps();R()}
-
-function sec(emoji,label){return`<div class="sc"><span style="font-size:16px">${emoji}</span>${label}</div>`}
+function sec(e,l){return`<div class="sc"><span style="font-size:16px">${e}</span>${l}</div>`}
 function hdC(){return{today:'',list:' hd-list',habits:' hd-habits',ideas:' hd-ideas'}[S.tab]}
+
+// CRITICAL FIX: tag+dropdown helper — dropdown is SIBLING to tag, not child
+function tagDD(id,field,label,style,items,upward){
+  const isOpen=S.dd&&S.dd.id===id&&S.dd.f===field;
+  let h=`<div class="tw">`;
+  h+=`<span class="tag" style="${style}" onclick="event.stopPropagation();openDD('${id}','${field}')">${label}</span>`;
+  if(isOpen){
+    h+=`<div class="dd${upward?' up':''}">`;
+    items.forEach(it=>{h+=`<div class="dd-i${it.on?' on':''}" onclick="event.stopPropagation();${it.action}">${it.label}</div>`});
+    h+='</div>';
+  }
+  h+='</div>';
+  return h;
+}
 
 function tkH(t,sc){
   const eg=t.energy?ENG[t.energy]:null;const cc=CC[t.category]||'#f47d4a';
-  const isDD=f=>S.dd&&S.dd.id===t.id&&S.dd.f===f;
   const dDisp=dueDisplay(t.dueDate);const overdue=isOverdue(t)&&!t.done;
-  const isEditing=S.editingTask===t.id;
-  const isShopping=t.category==='shopping';
+  const isEditing=S.editingTask===t.id;const isShopping=t.category==='shopping';
 
   let h=`<div class="tk${t.done?' d':''}" style="border-left-color:${t.done?'transparent':overdue?'#d4513d':cc}">
     <div class="tk-top"><div style="padding-top:1px" onclick="event.stopPropagation();tgl('${t.id}')"><div class="cb${t.done?' ck':''}">${t.done?chk():''}</div></div>
@@ -218,41 +183,46 @@ function tkH(t,sc){
 
   if(!t.done&&!isEditing){
     h+='<div class="tags">';
-    // Category
-    h+=`<span class="tag" style="background:${cc}18;color:${cc}" onclick="openDD('${t.id}','cat',event)">${CE[t.category]||'📋'}${CL[t.category]||''}`;
-    if(isDD('cat')){h+='<div class="dd">';CATS.filter(c=>c.i!=='all').forEach(c=>{h+=`<div class="dd-i${t.category===c.i?' on':''}" onclick="event.stopPropagation();upd('${t.id}',{category:'${c.i}'})">${c.e} ${c.l}</div>`});h+='</div>'}
-    h+='</span>';
 
-    // Shopping sub-tags — only show for shopping category
+    // Category
+    h+=tagDD(t.id,'cat',`${CE[t.category]||'📋'}${CL[t.category]||''}`,`background:${cc}18;color:${cc}`,
+      CATS.filter(c=>c.i!=='all').map(c=>({label:`${c.e} ${c.l}`,on:t.category===c.i,action:`upd('${t.id}',{category:'${c.i}'})`})),false);
+
+    // Shopping sub-tags
     if(isShopping){
-      // Place tag
-      const plLabel=t.shopPlace?SPL[t.shopPlace]:'📍地点';
-      h+=`<span class="tag" style="background:var(--tlL);color:var(--tl)" onclick="openDD('${t.id}','spl',event)">${plLabel}`;
-      if(isDD('spl')){h+='<div class="dd">';SHOP_PLACES.forEach(p=>{h+=`<div class="dd-i${t.shopPlace===p.i?' on':''}" onclick="event.stopPropagation();upd('${t.id}',{shopPlace:'${p.i}'})">${p.l}</div>`});h+=`<div class="dd-i${!t.shopPlace?' on':''}" onclick="event.stopPropagation();upd('${t.id}',{shopPlace:null})">不限</div></div>`}
-      h+='</span>';
-      // Type tag
-      const tyLabel=t.shopType?STL[t.shopType]:'🏷️类型';
-      h+=`<span class="tag" style="background:var(--pkL);color:var(--pk)" onclick="openDD('${t.id}','sty',event)">${tyLabel}`;
-      if(isDD('sty')){h+='<div class="dd">';SHOP_TYPES.forEach(ty=>{h+=`<div class="dd-i${t.shopType===ty.i?' on':''}" onclick="event.stopPropagation();upd('${t.id}',{shopType:'${ty.i}'})">${ty.l}</div>`});h+=`<div class="dd-i${!t.shopType?' on':''}" onclick="event.stopPropagation();upd('${t.id}',{shopType:null})">不限</div></div>`}
-      h+='</span>';
+      h+=tagDD(t.id,'spl',t.shopPlace?SPL[t.shopPlace]:'📍地点','background:var(--tlL);color:var(--tl)',
+        [...SHOP_PLACES.map(p=>({label:p.l,on:t.shopPlace===p.i,action:`upd('${t.id}',{shopPlace:'${p.i}'})`})),{label:'不限',on:!t.shopPlace,action:`upd('${t.id}',{shopPlace:null})`}],false);
+      h+=tagDD(t.id,'sty',t.shopType?STL[t.shopType]:'🏷️类型','background:var(--pkL);color:var(--pk)',
+        [...SHOP_TYPES.map(ty=>({label:ty.l,on:t.shopType===ty.i,action:`upd('${t.id}',{shopType:'${ty.i}'})`})),{label:'不限',on:!t.shopType,action:`upd('${t.id}',{shopType:null})`}],false);
     }
 
     // Energy
-    if(eg)h+=`<span class="tag" style="background:${eg.bg};color:${eg.c}" onclick="openDD('${t.id}','eng',event)">${eg.l}`;
-    else h+=`<span class="tag" style="background:var(--sa);color:var(--tm)" onclick="openDD('${t.id}','eng',event)">优先级`;
-    if(isDD('eng')){h+='<div class="dd">';Object.entries(ENG).forEach(([k,v])=>{h+=`<div class="dd-i${t.energy===k?' on':''}" onclick="event.stopPropagation();upd('${t.id}',{energy:'${k}'})">${v.l}</div>`});h+=`<div class="dd-i${!t.energy?' on':''}" onclick="event.stopPropagation();upd('${t.id}',{energy:null})">无</div></div>`}
-    h+='</span>';
-    // Due
+    h+=tagDD(t.id,'eng',eg?eg.l:'优先级',eg?`background:${eg.bg};color:${eg.c}`:'background:var(--sa);color:var(--tm)',
+      [...Object.entries(ENG).map(([k,v])=>({label:v.l,on:t.energy===k,action:`upd('${t.id}',{energy:'${k}'})`})),{label:'无',on:!t.energy,action:`upd('${t.id}',{energy:null})`}],false);
+
+    // Due (static, no dropdown)
     if(dDisp){const dColor=overdue?'#d4513d':dDisp==='今天'?'#e06930':dDisp==='明天'?'#c89020':'var(--ts)';const dBg=overdue?'#fdf0ee':dDisp==='今天'?'#fdf0e8':dDisp==='明天'?'#fef6e6':'var(--sa)';h+=`<span class="tag" style="background:${dBg};color:${dColor}">${overdue?'⚠️':''}${dDisp}</span>`}
+
     // Assignee
-    h+=`<span class="tag" style="background:${t.assignee?'#e8edf6':'var(--sa)'};color:${t.assignee?'#5c7cba':'var(--tm)'}" onclick="openDD('${t.id}','asg',event)">${t.assignee?'→'+t.assignee:'👤'}`;
-    if(isDD('asg')){h+=`<div class="dd"><div class="dd-i${t.assignee?' on':''}" onclick="event.stopPropagation();upd('${t.id}',{assignee:'老公'})">👤 老公</div><div class="dd-i${!t.assignee?' on':''}" onclick="event.stopPropagation();upd('${t.id}',{assignee:null})">自己</div></div>`}
-    h+='</span>';
-    // More
-    h+=`<span class="tag" style="background:var(--sa);color:var(--tm)" onclick="openDD('${t.id}','more',event)">···`;
-    if(isDD('more')){h+=`<div class="dd up"><div class="dd-i" onclick="event.stopPropagation();startEdit('${t.id}')">✏️ 编辑文字</div><div class="dd-i" onclick="event.stopPropagation();S.dd={id:'${t.id}',f:'due'};R()">📅 修改日期</div>${!t.pool?`<div class="dd-i" onclick="event.stopPropagation();upd('${t.id}',{pool:true});toast('💡 已移入想法池')">💡 以后再说</div>`:`<div class="dd-i" onclick="event.stopPropagation();upd('${t.id}',{pool:false});toast('📋 已移入行动清单')">📋 立刻行动</div>`}<div class="dd-i" style="color:#e06930" onclick="event.stopPropagation();del('${t.id}')">🗑 删除</div></div>`}
-    h+='</span>';
-    if(isDD('due')){const duOpts=[{l:'今天',v:td()},{l:'明天',v:(()=>{const d=new Date();d.setDate(d.getDate()+1);return d.toISOString().slice(0,10)})()},{l:'本周末',v:(()=>{const d=new Date();const day=d.getDay()||7;d.setDate(d.getDate()+(6-day));return d.toISOString().slice(0,10)})()},{l:'下周一',v:(()=>{const d=new Date();const day=d.getDay()||7;d.setDate(d.getDate()+(8-day));return d.toISOString().slice(0,10)})()},{l:'无日期',v:null}];h+=`<div class="dd up" style="left:auto;right:0">`;duOpts.forEach(o=>{h+=`<div class="dd-i${t.dueDate===o.v?' on':''}" onclick="event.stopPropagation();upd('${t.id}',{dueDate:${o.v?`'${o.v}'`:'null'}})">${o.l}</div>`});h+='</div>'}
+    h+=tagDD(t.id,'asg',t.assignee?'→'+t.assignee:'👤',t.assignee?'background:#e8edf6;color:#5c7cba':'background:var(--sa);color:var(--tm)',
+      [{label:'👤 老公',on:!!t.assignee,action:`upd('${t.id}',{assignee:'老公'})`},{label:'自己',on:!t.assignee,action:`upd('${t.id}',{assignee:null})`}],false);
+
+    // More menu
+    const moreItems=[
+      {label:'✏️ 编辑文字',on:false,action:`startEdit('${t.id}')`},
+      {label:'📅 修改日期',on:false,action:`openDD('${t.id}','due')`},
+    ];
+    if(!t.pool)moreItems.push({label:'💡 以后再说',on:false,action:`upd('${t.id}',{pool:true});toast('💡 已移入想法池')`});
+    else moreItems.push({label:'📋 立刻行动',on:false,action:`upd('${t.id}',{pool:false});toast('📋 已移入行动清单')`});
+    moreItems.push({label:'🗑 删除',on:false,action:`del('${t.id}')`});
+    h+=tagDD(t.id,'more','···','background:var(--sa);color:var(--tm)',moreItems,true);
+
+    // Due date picker
+    const isDD=f=>S.dd&&S.dd.id===t.id&&S.dd.f===f;
+    if(isDD('due')){
+      const duOpts=[{l:'今天',v:td()},{l:'明天',v:(()=>{const d=new Date();d.setDate(d.getDate()+1);return d.toISOString().slice(0,10)})()},{l:'本周末',v:(()=>{const d=new Date();const day=d.getDay()||7;d.setDate(d.getDate()+(6-day));return d.toISOString().slice(0,10)})()},{l:'下周一',v:(()=>{const d=new Date();const day=d.getDay()||7;d.setDate(d.getDate()+(8-day));return d.toISOString().slice(0,10)})()},{l:'无日期',v:null}];
+      h+=`<div class="tw"><div class="dd up right">`;duOpts.forEach(o=>{h+=`<div class="dd-i${t.dueDate===o.v?' on':''}" onclick="event.stopPropagation();upd('${t.id}',{dueDate:${o.v?`'${o.v}'`:'null'}})">${o.l}</div>`});h+='</div></div>';
+    }
     h+='</div>';
   }
   h+='</div></div></div>';return h;
@@ -264,26 +234,18 @@ function hmH(){
   const gc=(d,y)=>{if(!y)return'transparent';let c=0;S.habits.forEach(h=>{if(h.history[d])c++});if(!c)return'#f5ede3';return iC[Math.min(3,Math.ceil(c/mxH*3))]};
   const ms=[];let lm=-1;ws.forEach((w,wi)=>{const m=w[0].m;if(m!==lm&&w[0].y){ms.push({m,wi});lm=m}});
   const all=ws.flat().filter(d=>d.y);const tot=all.reduce((s,d)=>{let c=0;S.habits.forEach(h=>{if(h.history[d.d])c++});return s+c},0);
-  let realStk=0;const sd=new Date();while(S.habits.length&&S.habits.every(h=>h.history[sd.toISOString().slice(0,10)])){realStk++;sd.setDate(sd.getDate()-1)}
+  let stk=0;const sd=new Date();while(S.habits.length&&S.habits.every(h=>h.history[sd.toISOString().slice(0,10)])){stk++;sd.setDate(sd.getDate()-1)}
   const cz=8,cg=2,rl=16,tw=rl+ws.length*(cz+cg);
-  let h=`<div class="hm"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-    <span style="font-size:14px;font-weight:700">${new Date().getFullYear()} 年</span>
-    <div style="display:flex;gap:12px"><span style="font-size:11px;color:var(--ts);font-weight:600"><span style="color:var(--hb)">${tot}</span> 次</span>
-    ${realStk?`<span style="font-size:11px;color:var(--ts);font-weight:600">🔥<span style="color:var(--or)">${realStk}</span>天</span>`:''}</div></div>`;
-  h+=`<div style="overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none"><div style="position:relative;min-width:${tw}px">`;
-  h+=`<div style="height:12px;margin-left:${rl}px;position:relative">`;ms.forEach(({m,wi})=>{h+=`<span style="position:absolute;left:${wi*(cz+cg)}px;font-size:8px;color:var(--tm);font-weight:600">${MO[m]}</span>`});h+='</div>';
-  for(let r=0;r<7;r++){h+=`<div style="display:flex;align-items:center;gap:${cg}px;margin-top:${r===0?14:cg}px"><span style="width:${rl}px;font-size:7px;color:var(--tm);text-align:right;padding-right:3px;line-height:${cz}px;font-weight:600">${r===0?'一':r===2?'三':r===4?'五':''}</span>`;
-    ws.forEach(w=>{const c=w[r];if(!c){h+=`<span style="width:${cz}px;height:${cz}px;display:inline-block"></span>`;return}h+=`<span class="hx" style="background:${gc(c.d,c.y)}${c.d===today?';outline:2px solid var(--or);outline-offset:1px':''}"></span>`});h+='</div>'}
-  h+='</div></div>';
-  h+=`<div style="display:flex;align-items:center;gap:3px;margin-top:8px;justify-content:flex-end"><span style="font-size:8px;color:var(--tm);font-weight:600">少</span>`;
-  ['#f5ede3','var(--hbL)','#a8d4bc','var(--hb)'].forEach(c=>{h+=`<span style="width:8px;height:8px;border-radius:2px;background:${c};display:inline-block"></span>`});
-  h+='<span style="font-size:8px;color:var(--tm);font-weight:600">多</span></div></div>';return h;
+  let h=`<div class="hm"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><span style="font-size:14px;font-weight:700">${new Date().getFullYear()} 年</span><div style="display:flex;gap:12px"><span style="font-size:11px;color:var(--ts);font-weight:600"><span style="color:var(--hb)">${tot}</span> 次</span>${stk?`<span style="font-size:11px;color:var(--ts);font-weight:600">🔥<span style="color:var(--or)">${stk}</span>天</span>`:''}</div></div>`;
+  h+=`<div style="overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none"><div style="position:relative;min-width:${tw}px"><div style="height:12px;margin-left:${rl}px;position:relative">`;ms.forEach(({m,wi})=>{h+=`<span style="position:absolute;left:${wi*(cz+cg)}px;font-size:8px;color:var(--tm);font-weight:600">${MO[m]}</span>`});h+='</div>';
+  for(let r=0;r<7;r++){h+=`<div style="display:flex;align-items:center;gap:${cg}px;margin-top:${r===0?14:cg}px"><span style="width:${rl}px;font-size:7px;color:var(--tm);text-align:right;padding-right:3px;line-height:${cz}px;font-weight:600">${r===0?'一':r===2?'三':r===4?'五':''}</span>`;ws.forEach(w=>{const c=w[r];if(!c){h+=`<span style="width:${cz}px;height:${cz}px;display:inline-block"></span>`;return}h+=`<span class="hx" style="background:${gc(c.d,c.y)}${c.d===today?';outline:2px solid var(--or);outline-offset:1px':''}"></span>`});h+='</div>'}
+  h+='</div></div><div style="display:flex;align-items:center;gap:3px;margin-top:8px;justify-content:flex-end"><span style="font-size:8px;color:var(--tm);font-weight:600">少</span>';['#f5ede3','var(--hbL)','#a8d4bc','var(--hb)'].forEach(c=>{h+=`<span style="width:8px;height:8px;border-radius:2px;background:${c};display:inline-block"></span>`});h+='<span style="font-size:8px;color:var(--tm);font-weight:600">多</span></div></div>';return h;
 }
 
 function R(){
-  const today=td(),wd=gwd();
+  const today=td();
   const act=S.tasks.filter(t=>!t.done&&!t.pool),dn=S.tasks.filter(t=>t.done&&!t.pool),pl=S.tasks.filter(t=>t.pool&&!t.done);
-  const tDue=act.filter(t=>isDueToday(t)),tTmr=act.filter(t=>isDueTmr(t)),tOver=act.filter(t=>isOverdue(t));
+  const tDue=act.filter(isDueToday),tTmr=act.filter(isDueTmr),tOver=act.filter(isOverdue);
   const pri=S.picks.length?S.picks.map(id=>act.find(t=>t.id===id)).filter(Boolean).filter(t=>!isDueToday(t)&&!isOverdue(t)):act.filter(t=>(t.energy==='urgent'||isDueTmr(t))&&!isDueToday(t)&&!isOverdue(t)).slice(0,5);
   const qk=act.filter(t=>t.energy==='quick'&&!isDueToday(t)&&!isOverdue(t)&&!pri.find(p=>p?.id===t.id));
   let lF=act.filter(t=>(S.catF==='all'||t.category===S.catF)&&(!S.engF||t.energy===S.engF));
@@ -291,82 +253,63 @@ function R(){
   const dF=dn.filter(t=>S.catF==='all'||t.category===S.catF);
 
   let h='';
-  if(S.dd)h+='<div class="dd-overlay" onclick="closeDD()"></div>';
 
-  h+=`<div class="hd${hdC()}"><div class="hd-row"><h1>${{today:'☀️ 今天',list:'📋 清单',habits:'🔄 打卡',ideas:'💡 想法'}[S.tab]}</h1>
-    <button onclick="S.showSet=true;R()" style="padding:4px">${ic('M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.573-1.066z',22,'rgba(255,255,255,.7)',1.8)}</button></div>`;
+  h+=`<div class="hd${hdC()}"><div class="hd-row"><h1>${{today:'☀️ 今天',list:'📋 清单',habits:'🔄 打卡',ideas:'💡 想法'}[S.tab]}</h1><button onclick="S.showSet=true;R()" style="padding:4px">${ic('M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.573-1.066z',22,'rgba(255,255,255,.7)',1.8)}</button></div>`;
   if(S.tab==='today')h+=`<div class="sub">${new Date().toLocaleDateString('zh-CN',{weekday:'long',month:'long',day:'numeric'})} · ${act.length} 件待办</div>`;
   else if(S.tab==='list')h+=`<div class="sub">${act.length} 件待办${dn.length?` · ${dn.length} 已完成`:''}</div>`;
   else if(S.tab==='habits')h+=`<div class="sub">今日 ${S.habits.filter(x=>x.history[today]).length}/${S.habits.length} 已打卡</div>`;
   else h+=`<div class="sub">${pl.length} 个想法在等你</div>`;
   h+='</div><div class="ct">';
-
   if(nbr())h+=`<div class="br"><span>📦 超过一周未备份</span><button onclick="exp()">备份</button></div>`;
 
-  // TODAY
   if(S.tab==='today'){
-    if(tDue.length&&!S.notifDismissed){const preview=tDue.slice(0,3).map(t=>esc(t.text)).join(' · ');h+=`<div class="notif"><div class="notif-row"><span style="font-size:24px">⏰</span><div style="flex:1"><div style="font-size:13px;font-weight:700">${tDue.length} 件今天到期</div><div style="font-size:11px;opacity:.85;margin-top:2px">${preview}</div></div><button class="notif-dismiss" onclick="S.notifDismissed=true;R()">知道了</button></div></div>`}
+    if(tDue.length&&!S.notifDismissed){const pv=tDue.slice(0,3).map(t=>esc(t.text)).join(' · ');h+=`<div class="notif"><div class="notif-row"><span style="font-size:24px">⏰</span><div style="flex:1"><div style="font-size:13px;font-weight:700">${tDue.length} 件今天到期</div><div style="font-size:11px;opacity:.85;margin-top:2px">${pv}</div></div><button class="notif-dismiss" onclick="S.notifDismissed=true;R()">知道了</button></div></div>`}
     if(tOver.length&&!S.overdueDismissed){h+=`<div class="overdue-warn"><span>🚨</span><span>${tOver.length} 件已过期</span><button onclick="S.overdueDismissed=true;R()" style="color:#d4513d;font-size:14px;padding:0 4px;margin-left:auto">×</button></div>`}
-    if(tTmr.length&&!S.tmrDismissed){const tp=tTmr.slice(0,2).map(t=>esc(t.text)).join(' · ');h+=`<div class="tmr-warn"><span>⚠️</span><span>${tTmr.length} 件明天到期</span><span style="font-size:10px;font-weight:500;color:var(--tm);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${tp}</span><button onclick="S.tmrDismissed=true;R()" style="color:#c89020;font-size:14px;padding:0 4px">×</button></div>`}
+    if(tTmr.length&&!S.tmrDismissed){h+=`<div class="tmr-warn"><span>⚠️</span><span>${tTmr.length} 件明天到期</span><button onclick="S.tmrDismissed=true;R()" style="color:#c89020;font-size:14px;padding:0 4px;margin-left:auto">×</button></div>`}
     if(tOver.length){h+=sec('🚨','已过期');tOver.forEach(t=>{h+=tkH(t,true)})}
     if(tDue.length){h+=sec('🔴','今天到期');tDue.forEach(t=>{h+=tkH(t,false)})}
     if(pri.length){h+=sec(S.picks.length?'✦':'⭐','建议优先');pri.forEach(t=>{h+=tkH(t,true)})}
     if(qk.length){h+=sec('⚡','顺手搞定');qk.forEach(t=>{h+=tkH(t,false)})}
-    const todayHabits=S.habits.filter(x=>{if(x.freq==='daily')return true;if(x.freq==='weekly'){const wk=gwd();return!wk.some(d=>d!==today&&x.history[d])}return true});
-    if(todayHabits.length){h+=sec('🔄','今日打卡');todayHabits.forEach(x=>{const hd=!!x.history[today];h+=`<div style="display:flex;align-items:center;gap:12px;padding:12px 16px;margin-bottom:8px;background:var(--sf);border-radius:16px;box-shadow:0 2px 6px rgba(45,48,72,.04)"><div class="hbtn${hd?' d':''}" onclick="tglH('${x.id}')">${hd?'✓':'○'}</div><span style="font-size:14px;font-weight:500;color:${hd?'var(--tm)':'var(--tx)'}">${esc(x.text)}</span>${x.streak>0?`<span style="font-size:11px;color:var(--or);font-weight:700;margin-left:auto">🔥${x.streak}</span>`:''}</div>`})}
-    if(!tOver.length&&!tDue.length&&!pri.length&&!qk.length&&!todayHabits.length)h+='<div style="text-align:center;padding:60px 0;color:var(--tm);font-size:14px;font-weight:600">今天全部搞定了 🎉</div>';
+    const tH=S.habits.filter(x=>{if(x.freq==='daily')return true;if(x.freq==='weekly'){const wk=gwd();return!wk.some(d=>d!==today&&x.history[d])}return true});
+    if(tH.length){h+=sec('🔄','今日打卡');tH.forEach(x=>{const hd=!!x.history[today];h+=`<div style="display:flex;align-items:center;gap:12px;padding:12px 16px;margin-bottom:8px;background:var(--sf);border-radius:16px;box-shadow:0 2px 6px rgba(45,48,72,.04)"><div class="hbtn${hd?' d':''}" onclick="tglH('${x.id}')">${hd?'✓':'○'}</div><span style="font-size:14px;font-weight:500;color:${hd?'var(--tm)':'var(--tx)'}">${esc(x.text)}</span>${x.streak>0?`<span style="font-size:11px;color:var(--or);font-weight:700;margin-left:auto">🔥${x.streak}</span>`:''}</div>`})}
+    if(!tOver.length&&!tDue.length&&!pri.length&&!qk.length&&!tH.length)h+='<div style="text-align:center;padding:60px 0;color:var(--tm);font-size:14px;font-weight:600">今天全部搞定了 🎉</div>';
     if(dn.length){h+=`<div style="margin-top:12px"><button style="color:var(--tm);font-size:11px;padding:8px 0;font-weight:600" onclick="S.showDone=!S.showDone;R()">${S.showDone?'▾':'▸'} 已完成 (${dn.length})</button>`;if(S.showDone)dn.forEach(t=>{h+=tkH(t,true)});h+='</div>'}
   }
-
-  // LIST
   else if(S.tab==='list'){
-    h+='<div class="ll"><div class="sb">';
-    CATS.forEach(c=>{const cnt=c.i==='all'?act.length:act.filter(t=>t.category===c.i).length;h+=`<div class="si${S.catF===c.i?' on':''}" onclick="S.catF='${c.i}';R()"><span class="se">${c.img?`<img src="${c.img}">`:c.e}</span><span class="sl">${c.l}</span>${cnt>0?`<span class="scn">${cnt}</span>`:''}</div>`});
-    h+='</div><div class="lm">';
-    h+=`<div class="search-wrap"><input placeholder="🔍 搜索任务..." value="${esc(S.search)}" oninput="S.search=this.value;R()"></div>`;
+    h+='<div class="ll"><div class="sb">';CATS.forEach(c=>{const cnt=c.i==='all'?act.length:act.filter(t=>t.category===c.i).length;h+=`<div class="si${S.catF===c.i?' on':''}" onclick="S.catF='${c.i}';R()"><span class="se">${c.img?`<img src="${c.img}">`:c.e}</span><span class="sl">${c.l}</span>${cnt>0?`<span class="scn">${cnt}</span>`:''}</div>`});
+    h+='</div><div class="lm">';h+=`<div class="search-wrap"><input placeholder="🔍 搜索..." value="${esc(S.search)}" oninput="S.search=this.value;R()"></div>`;
     h+='<div class="er">';Object.entries(ENG).forEach(([k,v])=>{h+=`<button class="ep" style="${S.engF===k?`border-color:${v.c};background:${v.bg};color:${v.c}`:''}" onclick="S.engF=S.engF==='${k}'?null:'${k}';R()">${v.l}</button>`});h+='</div>';
-    if(!lF.length)h+='<div style="text-align:center;padding:40px 0;color:var(--tm);font-size:13px;font-weight:600">空空如也 ✨</div>';
-    else lF.forEach(t=>{h+=tkH(t,S.catF==='all')});
+    if(!lF.length)h+='<div style="text-align:center;padding:40px 0;color:var(--tm);font-size:13px">空空如也 ✨</div>';else lF.forEach(t=>{h+=tkH(t,S.catF==='all')});
     if(dF.length){h+=`<button style="color:var(--tm);font-size:11px;padding:10px 0;font-weight:600" onclick="S.showDone=!S.showDone;R()">${S.showDone?'▾':'▸'} 已完成 (${dF.length})</button>`;if(S.showDone)dF.forEach(t=>{h+=tkH(t,S.catF==='all')})}
     h+='</div></div>';
   }
-
-  // HABITS
   else if(S.tab==='habits'){
-    const dc=S.habits.filter(x=>x.history[today]).length;
-    h+=`<div style="padding:12px 0 8px"><div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-size:12px;color:var(--ts);font-weight:600">今日进度</span><span style="font-size:13px;font-weight:800;color:var(--hb)">${dc}/${S.habits.length}</span></div><div style="height:6px;background:var(--sa);border-radius:3px;overflow:hidden"><div style="height:100%;border-radius:3px;background:linear-gradient(90deg,var(--hbL),var(--hb));width:${S.habits.length?dc/S.habits.length*100:0}%;transition:width .4s"></div></div></div>`;
+    const dc=S.habits.filter(x=>x.history[today]).length;h+=`<div style="padding:12px 0 8px"><div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-size:12px;color:var(--ts);font-weight:600">今日进度</span><span style="font-size:13px;font-weight:800;color:var(--hb)">${dc}/${S.habits.length}</span></div><div style="height:6px;background:var(--sa);border-radius:3px;overflow:hidden"><div style="height:100%;border-radius:3px;background:linear-gradient(90deg,var(--hbL),var(--hb));width:${S.habits.length?dc/S.habits.length*100:0}%;transition:width .4s"></div></div></div>`;
     h+=hmH();
-    S.habits.forEach(x=>{const hd=!!x.history[today];
-      h+=`<div class="hc"><div style="display:flex;align-items:center;gap:12px"><div class="hbtn${hd?' d':''}" onclick="tglH('${x.id}')">${hd?'✓':'○'}</div><div style="flex:1"><span style="font-size:14px;color:${hd?'var(--ts)':'var(--tx)'};font-weight:600">${esc(x.text)}</span><div style="font-size:11px;color:var(--tm);margin-top:2px;font-weight:500">${x.freq==='daily'?'每天':'每周'}${x.streak>0?` · <span style="color:var(--or);font-weight:700">🔥 ${x.streak}天</span>`:''}</div></div><button onclick="delH('${x.id}')" style="color:var(--tm);font-size:16px">×</button></div><div style="display:flex;gap:4px;margin-top:10px;padding-left:48px">`;
-      const wd2=gwd();wd2.forEach((d,i)=>{h+=`<div style="flex:1;text-align:center"><div class="wb" style="background:${x.history[d]?'var(--hb)':'var(--sa)'}"></div><span style="font-size:9px;color:${d===today?'var(--tx)':'var(--tm)'};font-weight:${d===today?700:500}">${WD[i]}</span></div>`});
-      h+='</div></div>'});
-    if(S.addH){h+=`<div style="padding:14px 16px;background:var(--sf);border-radius:16px;margin-top:8px;box-shadow:0 2px 8px rgba(45,48,72,.04)"><input id="nhi" value="${esc(S.newH)}" oninput="S.newH=this.value" onkeydown="if(event.key==='Enter')addHA()" placeholder="新习惯名称..." style="width:100%;border:none;border-bottom:2px solid var(--bd);outline:none;font-size:14px;padding:8px 0;background:transparent;font-weight:500"><div style="display:flex;gap:6px;margin-top:10px"><button class="eb" style="${S.hFreq==='daily'?'border-color:var(--or);background:var(--orL);color:var(--or)':''}" onclick="S.hFreq='daily';R()">每天</button><button class="eb" style="${S.hFreq==='weekly'?'border-color:var(--or);background:var(--orL);color:var(--or)':''}" onclick="S.hFreq='weekly';R()">每周</button><button class="eb" style="margin-left:auto;background:var(--or);color:#fff;border-color:var(--or)" onclick="addHA()">添加</button><button class="eb" onclick="S.addH=false;R()">取消</button></div></div>`}
+    S.habits.forEach(x=>{const hd=!!x.history[today];h+=`<div class="hc"><div style="display:flex;align-items:center;gap:12px"><div class="hbtn${hd?' d':''}" onclick="tglH('${x.id}')">${hd?'✓':'○'}</div><div style="flex:1"><span style="font-size:14px;color:${hd?'var(--ts)':'var(--tx)'};font-weight:600">${esc(x.text)}</span><div style="font-size:11px;color:var(--tm);margin-top:2px;font-weight:500">${x.freq==='daily'?'每天':'每周'}${x.streak>0?` · <span style="color:var(--or);font-weight:700">🔥 ${x.streak}天</span>`:''}</div></div><button onclick="delH('${x.id}')" style="color:var(--tm);font-size:16px">×</button></div><div style="display:flex;gap:4px;margin-top:10px;padding-left:48px">`;const wd=gwd();wd.forEach((d,i)=>{h+=`<div style="flex:1;text-align:center"><div class="wb" style="background:${x.history[d]?'var(--hb)':'var(--sa)'}"></div><span style="font-size:9px;color:${d===today?'var(--tx)':'var(--tm)'};font-weight:${d===today?700:500}">${WD[i]}</span></div>`});h+='</div></div>'});
+    if(S.addH){h+=`<div style="padding:14px 16px;background:var(--sf);border-radius:16px;margin-top:8px"><input id="nhi" value="${esc(S.newH)}" oninput="S.newH=this.value" onkeydown="if(event.key==='Enter')addHA()" placeholder="新习惯名称..." style="width:100%;border:none;border-bottom:2px solid var(--bd);outline:none;font-size:14px;padding:8px 0;background:transparent;font-weight:500"><div style="display:flex;gap:6px;margin-top:10px"><button class="eb" style="${S.hFreq==='daily'?'border-color:var(--or);background:var(--orL);color:var(--or)':''}" onclick="S.hFreq='daily';R()">每天</button><button class="eb" style="${S.hFreq==='weekly'?'border-color:var(--or);background:var(--orL);color:var(--or)':''}" onclick="S.hFreq='weekly';R()">每周</button><button class="eb" style="margin-left:auto;background:var(--or);color:#fff;border-color:var(--or)" onclick="addHA()">添加</button><button class="eb" onclick="S.addH=false;R()">取消</button></div></div>`}
     else h+=`<button style="width:100%;padding:16px;color:var(--or);font-size:13px;text-align:center;font-weight:700" onclick="S.addH=true;R()">+ 添加新习惯</button>`;
   }
-
-  // IDEAS
   else if(S.tab==='ideas'){
     if(!pl.length)h+='<div style="text-align:center;padding:50px 0;color:var(--tm);font-size:14px;font-weight:600">随时记录灵感 ✨</div>';
     else pl.forEach(t=>{h+=`<div class="ir"><span style="color:var(--pp);font-size:16px">◇</span><span style="flex:1;font-size:14px;color:var(--ts);font-weight:500">${esc(t.text)}</span><button class="eb" style="border-color:var(--gn);color:var(--gn)" onclick="upd('${t.id}',{pool:false});toast('✅ 已移入行动清单')">→ 行动</button><button style="color:var(--tm);font-size:16px" onclick="del('${t.id}')">×</button></div>`})}
   h+='</div>';
 
-  // INPUT — hide on habits tab
   if(S.tab!=='habits'){h+=`<div class="ib"><div class="iw"><input id="mi" value="${esc(S.input)}" oninput="S.input=this.value" onkeydown="if(event.key==='Enter'&&!event.isComposing)sub()" placeholder="${S.tab==='ideas'?'💡 记个想法...':S.set.apiKey?'说几件事，AI 帮你拆分...':'输入任务，逗号分隔多条...'}" ${S.proc?'disabled':''}>${S.proc?'<div style="width:40px;height:40px;display:flex;align-items:center;justify-content:center"><div class="spin"></div></div>':`<button class="snb" style="background:${S.input.trim()?'var(--or)':'var(--sa)'}" onclick="sub()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="${S.input.trim()?'#fff':'var(--tm)'}" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg></button>`}</div>${!S.set.apiKey?'<p style="font-size:10px;color:var(--tm);text-align:center;margin-top:4px;font-weight:600">⚙ 设置 API Key 启用 AI</p>':''}</div>`}
 
-  // TABS
   h+='<div class="bt">';TABS.forEach(t=>{const on=S.tab===t.i;h+=`<button class="tab" onclick="S.tab='${t.i}';S.dd=null;S.editingTask=null;S.notifDismissed=false;S.tmrDismissed=false;S.overdueDismissed=false;${t.i==='today'?'aiR();':''}R()">${ic(t.p,22,on?'var(--or)':'var(--tm)',on?2:1.8)}<span style="color:${on?'var(--or)':'var(--tm)'};font-weight:${on?700:500}">${t.l}</span></button>`});h+='</div>';
 
-  // SETTINGS
   if(S.showSet){h+=`<div class="mo-bg" onclick="S.showSet=false;R()"><div class="mo" onclick="event.stopPropagation()"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px"><h2>⚙️ 设置</h2><button onclick="S.showSet=false;R()" style="font-size:20px;color:var(--ts)">×</button></div><div style="margin-bottom:24px"><label>CLAUDE API KEY</label><p style="font-size:12px;color:var(--tm);margin:4px 0 8px;font-weight:500">AI 自动拆分任务并分类</p><input class="mo-input" type="password" value="${S.set.apiKey}" placeholder="sk-ant-..." onchange="S.set.apiKey=this.value;ps()"></div><div style="margin-bottom:24px"><label>数据</label><div style="display:flex;gap:8px;margin-top:10px"><button class="mo-btn" style="flex:1;border:2px solid var(--bd);color:var(--tx)" onclick="exp()">📦 导出</button><label class="mo-btn" style="flex:1;border:2px solid var(--bd);color:var(--tx);display:flex;align-items:center;justify-content:center">📥 导入<input type="file" accept=".json" onchange="imp(event)" style="display:none"></label></div></div><button class="mo-btn" style="border:2px solid #f0dbd7;color:var(--ur)" onclick="if(confirm('确定清除？')){S.tasks=[];S.habits=[...${JSON.stringify(DH)}];ps();R()}">🗑 清除</button></div></div>`}
 
   document.getElementById('app').innerHTML=h;
   if(S.addH){const ni=document.getElementById('nhi');if(ni)ni.focus()}
 }
-
 R();if(S.set.apiKey)aiR();
-let _lastDate=td();
-document.addEventListener('visibilitychange',()=>{if(!document.hidden){const now=td();if(now!==_lastDate){_lastDate=now;S.notifDismissed=false;S.tmrDismissed=false;S.overdueDismissed=false;S.aiPrioDate='';R();if(S.set.apiKey)aiR()}}});
-window.addEventListener('focus',()=>{const now=td();if(now!==_lastDate){_lastDate=now;S.notifDismissed=false;S.tmrDismissed=false;S.overdueDismissed=false;S.aiPrioDate='';R()}});
+// Close dropdown when tapping outside — skip if just opened in this tick
+document.addEventListener('click',()=>{if(S._ddJustOpened){S._ddJustOpened=false;return}if(S.dd){S.dd=null;R()}});
+let _ld=td();
+document.addEventListener('visibilitychange',()=>{if(!document.hidden){const n=td();if(n!==_ld){_ld=n;S.notifDismissed=false;S.tmrDismissed=false;S.overdueDismissed=false;S.aiPrioDate='';R();if(S.set.apiKey)aiR()}}});
+window.addEventListener('focus',()=>{const n=td();if(n!==_ld){_ld=n;S.notifDismissed=false;S.tmrDismissed=false;S.overdueDismissed=false;S.aiPrioDate='';R()}});
 </script>
 <script>
 if('serviceWorker' in navigator){navigator.serviceWorker.register('./sw.js').then(r=>{r.update()}).catch(()=>{})}
