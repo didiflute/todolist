@@ -100,7 +100,9 @@ const SK={t:'wt_tasks',h:'wt_habits',s:'wt_set',b:'wt_lb'};
 const ld=(k,f)=>{try{const v=localStorage.getItem(k);return v?JSON.parse(v):f}catch{return f}};
 const sv=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
 const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
-const td=()=>new Date().toISOString().slice(0,10);
+// Local date — NEVER use toISOString for dates (it returns UTC, not local time)
+function ld2(d){const y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,'0'),dd=String(d.getDate()).padStart(2,'0');return`${y}-${m}-${dd}`}
+const td=()=>ld2(new Date());
 const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 const DH=[{id:'h1',text:'健身 30 分钟',freq:'daily',streak:0,history:{}},{id:'h2',text:'读书 20 分钟',freq:'daily',streak:0,history:{}}];
 
@@ -109,10 +111,10 @@ const SHOP_TYPES=[{i:'beauty',l:'💄 护肤美妆'},{i:'clothes',l:'👗 衣服
 const SPL=Object.fromEntries(SHOP_PLACES.map(p=>[p.i,p.l]));
 const STL=Object.fromEntries(SHOP_TYPES.map(t=>[t.i,t.l]));
 
-function dueToISO(d){if(!d)return null;const n=new Date(),y=n.getFullYear(),m=n.getMonth(),dd=n.getDate();const map={'今天':0,'明天':1,'后天':2};if(map[d]!==undefined){const dt=new Date(y,m,dd+map[d]);return dt.toISOString().slice(0,10)}const wd={'周一':1,'周二':2,'周三':3,'周四':4,'周五':5,'周六':6,'周日':7,'周天':7};if(wd[d]){const t=wd[d],c=n.getDay()||7;let df=t-c;if(df<=0)df+=7;return new Date(y,m,dd+df).toISOString().slice(0,10)}if(d==='本周'){const c=n.getDay()||7;return new Date(y,m,dd+(7-c)).toISOString().slice(0,10)}if(d==='下周一'){const c=n.getDay()||7;return new Date(y,m,dd+(8-c)).toISOString().slice(0,10)}if(/^\d{4}-\d{2}-\d{2}$/.test(d))return d;return null}
-function dueDisplay(d){if(!d)return'';const t=td();const tm=new Date();tm.setDate(tm.getDate()+1);if(d===t)return'今天';if(d===tm.toISOString().slice(0,10))return'明天';if(d<t)return'已过期';const dt=new Date(d+'T00:00:00');return`${dt.getMonth()+1}/${dt.getDate()}`}
+function dueToISO(d){if(!d)return null;const n=new Date(),y=n.getFullYear(),m=n.getMonth(),dd=n.getDate();const map={'今天':0,'明天':1,'后天':2};if(map[d]!==undefined)return ld2(new Date(y,m,dd+map[d]));const wd={'周一':1,'周二':2,'周三':3,'周四':4,'周五':5,'周六':6,'周日':7,'周天':7};if(wd[d]){const t=wd[d],c=n.getDay()||7;let df=t-c;if(df<=0)df+=7;return ld2(new Date(y,m,dd+df))}if(d==='本周'){const c=n.getDay()||7;return ld2(new Date(y,m,dd+(7-c)))}if(d==='下周一'){const c=n.getDay()||7;return ld2(new Date(y,m,dd+(8-c)))}if(/^\d{4}-\d{2}-\d{2}$/.test(d))return d;return null}
+function dueDisplay(d){if(!d)return'';const t=td();const tm=new Date();tm.setDate(tm.getDate()+1);if(d===t)return'今天';if(d===ld2(tm))return'明天';if(d<t)return'已过期';const dt=new Date(d+'T12:00:00');return`${dt.getMonth()+1}/${dt.getDate()}`}
 function isDueToday(t){return t.dueDate===td()}
-function isDueTmr(t){const d=new Date();d.setDate(d.getDate()+1);return t.dueDate===d.toISOString().slice(0,10)}
+function isDueTmr(t){const d=new Date();d.setDate(d.getDate()+1);return t.dueDate===ld2(d)}
 function isOverdue(t){return t.dueDate&&t.dueDate<td()}
 
 let S={tab:'today',tasks:ld(SK.t,[]),habits:ld(SK.h,DH),set:ld(SK.s,{apiKey:''}),catF:'all',engF:null,shopPlaceF:null,shopTypeF:null,showDone:false,showSet:false,input:'',proc:false,picks:[],addH:false,newH:'',hFreq:'daily',dd:null,notifDismissed:false,tmrDismissed:false,overdueDismissed:false,editingTask:null,search:'',aiPrioDate:''};
@@ -120,20 +122,20 @@ function ps(){sv(SK.t,S.tasks);sv(SK.h,S.habits);sv(SK.s,S.set)}
 
 S.tasks=S.tasks.map(t=>{if(t.due&&!t.dueDate)return{...t,dueDate:dueToISO(t.due)||null,due:undefined};return t});ps();
 
-const CATS=[{i:'all',l:'全部',e:'📋',img:'./cat-all.png',c:'#f47d4a'},{i:'work',l:'工作',e:'💼',img:'./cat-work.png',c:'#5c7cba'},{i:'study',l:'学习',e:'📖',img:'./cat-study.png',c:'#8b7ec7'},{i:'home',l:'家务',e:'🏠',img:'./cat-home.png',c:'#6aab8e'},{i:'kids',l:'孩子',e:'👶',img:'./cat-kids.png',c:'#d97ba2'},{i:'shopping',l:'购物',e:'🛒',img:'./cat-shopping.png',c:'#5bbcbf'}];
+const CATS=[{i:'all',l:'全部',e:'📋',img:'./cat-all.png',c:'#f47d4a'},{i:'work',l:'工作',e:'💼',img:'./cat-work.png',c:'#5c7cba'},{i:'study',l:'学习',e:'📖',img:'./cat-study.png',c:'#8b7ec7'},{i:'home',l:'家务',e:'🏠',img:'./cat-home.png',c:'#6aab8e'},{i:'kids',l:'孩子',e:'👶',img:'./cat-kids.png',c:'#d97ba2'},{i:'travel',l:'旅行',e:'✈️',img:'./cat-travel.png',c:'#e8a84c'},{i:'shopping',l:'购物',e:'🛒',img:'./cat-shopping.png',c:'#5bbcbf'}];
 const CL=Object.fromEntries(CATS.map(c=>[c.i,c.l]));const CC=Object.fromEntries(CATS.map(c=>[c.i,c.c]));const CE=Object.fromEntries(CATS.map(c=>[c.i,c.e]));
 const ENG={urgent:{c:'#e06930',l:'🔥紧急',bg:'#fdf0e8'},quick:{c:'#c89020',l:'⚡快速',bg:'#fef6e6'},deep:{c:'#5c7cba',l:'🧠深度',bg:'#e8edf6'}};
 const TABS=[{i:'today',l:'今天',p:'M12 3v1m0 16v1m-8-9H3m18 0h-1m-2.636-5.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z'},{i:'list',l:'清单',p:'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4'},{i:'habits',l:'打卡',p:'M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15'},{i:'ideas',l:'想法',p:'M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z'}];
 const WD=['一','二','三','四','五','六','日'],MO=['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
-function gwd(){const n=new Date(),d=n.getDay()||7,m=new Date(n);m.setDate(n.getDate()-d+1);return Array.from({length:7},(_,i)=>{const x=new Date(m);x.setDate(m.getDate()+i);return x.toISOString().slice(0,10)})}
-function gyg(){const now=new Date(),yr=now.getFullYear(),j1=new Date(yr,0,1),sd=j1.getDay()||7,st=new Date(j1);st.setDate(j1.getDate()-(sd-1));const ws=[],cur=new Date(st);let wi=0;while(wi<54){const wk=[];for(let d=0;d<7;d++){wk.push({d:cur.toISOString().slice(0,10),y:cur.getFullYear()===yr,m:cur.getMonth()});cur.setDate(cur.getDate()+1)}ws.push(wk);wi++;if(cur>now&&cur.getFullYear()>yr)break}return ws}
+function gwd(){const n=new Date(),d=n.getDay()||7,m=new Date(n);m.setDate(n.getDate()-d+1);return Array.from({length:7},(_,i)=>{const x=new Date(m);x.setDate(m.getDate()+i);return ld2(x)})}
+function gyg(){const now=new Date(),yr=now.getFullYear(),j1=new Date(yr,0,1),sd=j1.getDay()||7,st=new Date(j1);st.setDate(j1.getDate()-(sd-1));const ws=[],cur=new Date(st);let wi=0;while(wi<54){const wk=[];for(let d=0;d<7;d++){wk.push({d:ld2(cur),y:cur.getFullYear()===yr,m:cur.getMonth()});cur.setDate(cur.getDate()+1)}ws.push(wk);wi++;if(cur>now&&cur.getFullYear()>yr)break}return ws}
 function nbr(){const b=localStorage.getItem(SK.b);if(!b)return true;return(Date.now()-parseInt(b))/864e5>=7}
 function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('s');setTimeout(()=>t.classList.remove('s'),2500)}
 function ic(p,s=22,c='var(--tm)',w=1.8){return`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round"><path d="${p}"/></svg>`}
 function chk(){return'<svg width="11" height="11" viewBox="0 0 12 12"><path d="M2.5 6l2.5 2.5 4.5-5" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>'}
-function calcStreak(h){let s=0;const d=new Date();while(h[d.toISOString().slice(0,10)]){s++;d.setDate(d.getDate()-1)}return s}
+function calcStreak(h){let s=0;const d=new Date();while(h[ld2(d)]){s++;d.setDate(d.getDate()-1)}return s}
 
-async function aiP(text){const k=S.set.apiKey;if(!k)return null;try{const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':k,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1500,system:`Parse tasks for a bilingual to-do app. Split MULTIPLE tasks. For each:\n- "text": concise\n- "category": "work"|"study"|"home"|"kids"|"shopping"\n- "energy": "urgent"|"quick"|"deep"|null\n- "due": "今天"|"明天"|"周五"|"本周" or null\n- "assignee": "老公" if mentioned, else null\n- "pool": true if "以后"/"someday", else false\nFor SHOPPING tasks also:\n- "shopPlace": "cn"|"jp"|"hk"|"us"|null\n- "shopType": "beauty"|"clothes"|"jewelry"|"bags"|"gifts"|"home"|"kids"|"travel"|null\nReturn ONLY valid JSON array.`,messages:[{role:'user',content:text}]})});const d=await r.json();return JSON.parse((d.content?.[0]?.text||'[]').replace(/```json|```/g,'').trim())}catch(e){console.error(e);return null}}
+async function aiP(text){const k=S.set.apiKey;if(!k)return null;try{const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':k,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1500,system:`Parse tasks for a bilingual to-do app. Split MULTIPLE tasks. For each:\n- "text": concise\n- "category": "work"|"study"|"home"|"kids"|"travel"|"shopping"\n- "energy": "urgent"|"quick"|"deep"|null\n- "due": "今天"|"明天"|"周五"|"本周" or null\n- "assignee": "老公" if mentioned, else null\n- "pool": true if "以后"/"someday", else false\nFor SHOPPING tasks also:\n- "shopPlace": "cn"|"jp"|"hk"|"us"|null\n- "shopType": "beauty"|"clothes"|"jewelry"|"bags"|"gifts"|"home"|"kids"|"travel"|null\nReturn ONLY valid JSON array.`,messages:[{role:'user',content:text}]})});const d=await r.json();return JSON.parse((d.content?.[0]?.text||'[]').replace(/```json|```/g,'').trim())}catch(e){console.error(e);return null}}
 async function aiR(){const k=S.set.apiKey;if(!k)return;const today=td();if(S.aiPrioDate===today&&S.picks.length)return;const a=S.tasks.filter(t=>!t.done&&!t.pool);if(a.length<3)return;try{const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':k,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:500,system:'Return JSON array of up to 5 task IDs to prioritize today. ONLY JSON array.',messages:[{role:'user',content:JSON.stringify(a.map(t=>({id:t.id,text:t.text,energy:t.energy,dueDate:t.dueDate})))}]})});const d=await r.json();S.picks=JSON.parse((d.content?.[0]?.text||'[]').replace(/```json|```/g,'').trim());S.aiPrioDate=today;R()}catch{}}
 
 function tgl(id){S.tasks=S.tasks.map(t=>t.id===id?{...t,done:!t.done}:t);ps();R()}
@@ -220,7 +222,7 @@ function tkH(t,sc){
     // Due date picker
     const isDD=f=>S.dd&&S.dd.id===t.id&&S.dd.f===f;
     if(isDD('due')){
-      const duOpts=[{l:'今天',v:td()},{l:'明天',v:(()=>{const d=new Date();d.setDate(d.getDate()+1);return d.toISOString().slice(0,10)})()},{l:'本周末',v:(()=>{const d=new Date();const day=d.getDay()||7;d.setDate(d.getDate()+(6-day));return d.toISOString().slice(0,10)})()},{l:'下周一',v:(()=>{const d=new Date();const day=d.getDay()||7;d.setDate(d.getDate()+(8-day));return d.toISOString().slice(0,10)})()},{l:'无日期',v:null}];
+      const duOpts=[{l:'今天',v:td()},{l:'明天',v:(()=>{const d=new Date();d.setDate(d.getDate()+1);return ld2(d)})()},{l:'本周末',v:(()=>{const d=new Date();const day=d.getDay()||7;d.setDate(d.getDate()+(6-day));return ld2(d)})()},{l:'下周一',v:(()=>{const d=new Date();const day=d.getDay()||7;d.setDate(d.getDate()+(8-day));return ld2(d)})()},{l:'无日期',v:null}];
       h+=`<div class="tw"><div class="dd up right">`;
       duOpts.forEach(o=>{h+=`<div class="dd-i${t.dueDate===o.v?' on':''}" onclick="event.stopPropagation();upd('${t.id}',{dueDate:${o.v?`'${o.v}'`:'null'}})">${o.l}</div>`});
       h+=`<div style="padding:4px 6px;border-top:1px solid var(--bd);margin-top:2px"><input type="date" value="${t.dueDate||''}" style="width:100%;border:none;font-size:12px;font-weight:600;color:var(--tx);background:transparent;outline:none" onchange="event.stopPropagation();upd('${t.id}',{dueDate:this.value||null})"></div>`;
@@ -237,7 +239,7 @@ function hmH(){
   const gc=(d,y)=>{if(!y)return'transparent';let c=0;S.habits.forEach(h=>{if(h.history[d])c++});if(!c)return'#f5ede3';return iC[Math.min(3,Math.ceil(c/mxH*3))]};
   const ms=[];let lm=-1;ws.forEach((w,wi)=>{const m=w[0].m;if(m!==lm&&w[0].y){ms.push({m,wi});lm=m}});
   const all=ws.flat().filter(d=>d.y);const tot=all.reduce((s,d)=>{let c=0;S.habits.forEach(h=>{if(h.history[d.d])c++});return s+c},0);
-  let stk=0;const sd=new Date();while(S.habits.length&&S.habits.every(h=>h.history[sd.toISOString().slice(0,10)])){stk++;sd.setDate(sd.getDate()-1)}
+  let stk=0;const sd=new Date();while(S.habits.length&&S.habits.every(h=>h.history[ld2(sd)])){stk++;sd.setDate(sd.getDate()-1)}
   const cz=8,cg=2,rl=16,tw=rl+ws.length*(cz+cg);
   let h=`<div class="hm"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><span style="font-size:14px;font-weight:700">${new Date().getFullYear()} 年</span><div style="display:flex;gap:12px"><span style="font-size:11px;color:var(--ts);font-weight:600"><span style="color:var(--hb)">${tot}</span> 次</span>${stk?`<span style="font-size:11px;color:var(--ts);font-weight:600">🔥<span style="color:var(--or)">${stk}</span>天</span>`:''}</div></div>`;
   h+=`<div style="overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none"><div style="position:relative;min-width:${tw}px"><div style="height:12px;margin-left:${rl}px;position:relative">`;ms.forEach(({m,wi})=>{h+=`<span style="position:absolute;left:${wi*(cz+cg)}px;font-size:8px;color:var(--tm);font-weight:600">${MO[m]}</span>`});h+='</div>';

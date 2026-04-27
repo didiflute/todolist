@@ -1,9 +1,9 @@
-const CACHE = 'todo-v6';
+const CACHE = 'todo-v9';
 
 // Install: cache the app shell
 self.addEventListener('install', e => {
   e.waitUntil(
-    caches.open(CACHE).then(c => c.addAll(['./', './index.html', './icon.png', './cat-all.png', './cat-work.png', './cat-study.png', './cat-home.png', './cat-kids.png', './cat-shopping.png']))
+    caches.open(CACHE).then(c => c.addAll(['./', './index.html', './icon.png', './cat-all.png', './cat-work.png', './cat-study.png', './cat-home.png', './cat-kids.png', './cat-travel.png', './cat-shopping.png']))
       .then(() => self.skipWaiting())
   );
 });
